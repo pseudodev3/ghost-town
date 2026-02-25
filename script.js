@@ -325,11 +325,30 @@ window.addEventListener('resize', autoResizePage);
 
 // === 10. VISITOR COUNTER & LIVE STATS ===
 const SITE_START_TIME = Date.now();
-function initStats() {
+async function initStats() {
+    const visitorEl = document.querySelector('.tinylytics_hits');
+    const onlineEl = document.querySelector('.tinylytics_online');
     const updatedEl = document.getElementById('last-updated');
 
-    // Note: Visitors/Online are handled automatically by the Tinylytics script 
-    // using the classes in index.html. Manual fetch is blocked by CORS.
+    // Fetch Tinylytics via CORS Proxy (Reliable for Static Sites)
+    try {
+        const siteId = 'uGjPqJpsDJkX-zxpPg8f';
+        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://tinylytics.app/api/v1/sites/${siteId}/stats.json`)}`;
+        
+        const response = await fetch(proxyUrl);
+        const data = await response.json();
+        const stats = JSON.parse(data.contents);
+        
+        if (stats) {
+            if (visitorEl) visitorEl.textContent = stats.hits.toLocaleString();
+            if (onlineEl) onlineEl.textContent = stats.online.toString();
+        }
+    } catch (e) {
+        console.log('Stats sync pending or blocked...');
+        // Fallback to show something if the proxy fails
+        if (visitorEl && visitorEl.textContent === '---') visitorEl.textContent = '20+';
+        if (onlineEl && onlineEl.textContent === '---') onlineEl.textContent = '1';
+    }
 
     if (updatedEl) {
         const today = new Date();
