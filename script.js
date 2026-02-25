@@ -325,29 +325,11 @@ window.addEventListener('resize', autoResizePage);
 
 // === 10. VISITOR COUNTER & LIVE STATS ===
 const SITE_START_TIME = Date.now();
-async function initStats() {
-    const counter = document.getElementById('visitor-count');
-    const onlineEl = document.getElementById('online-count');
+function initStats() {
     const updatedEl = document.getElementById('last-updated');
 
-    // Real CountAPI implementation (persistent total hits)
-    if (counter) {
-        try {
-            // This is a REAL public API that counts visits for your domain
-            const response = await fetch('https://api.countapi.xyz/hit/ghosttown.ddns.net/visits');
-            const data = await response.json();
-            if (data.value) {
-                counter.textContent = data.value.toLocaleString();
-            }
-        } catch (e) {
-            counter.textContent = '---';
-        }
-    }
-
-    // Real-time "Online" - Tinylytics handles this automatically via the script tag
-    if (onlineEl) {
-        // We let Tinylytics populate this. No more fake flutter.
-    }
+    // Stats (Visitors/Online) are handled automatically by Tinylytics classes in index.html.
+    // No manual fetch needed here to prevent conflicts.
 
     if (updatedEl) {
         const today = new Date();
