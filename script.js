@@ -1,4 +1,11 @@
 // ==========================================
+// 0. GLOBAL CONSTANTS
+// ==========================================
+const SITE_START_TIME = Date.now();
+const SESSION_TOKEN = Math.random().toString(36).substring(2, 15);
+let isFirstLoad = true;
+
+// ==========================================
 // 1. CONFIGURATION & DATA
 // ==========================================
 const ASH_PARTICLE_COUNT = 1000; 
@@ -324,10 +331,6 @@ window.addEventListener('load', autoResizePage);
 window.addEventListener('resize', autoResizePage); 
 
 // === 10. VISITOR COUNTER & LIVE STATS ===
-const SITE_START_TIME = Date.now();
-const SESSION_TOKEN = Math.random().toString(36).substring(2, 15);
-let isFirstLoad = true;
-
 async function initStats() {
     const visitorEl = document.getElementById('visitor-count');
     const onlineEl = document.getElementById('online-count');
@@ -335,10 +338,8 @@ async function initStats() {
 
     async function updateStats() {
         try {
-            // We ping your server's API. 
-            // n=true only on first load to increment hits.
-            // t=TOKEN identifies this specific tab as "online".
-            const res = await fetch(`https://ghosttown.ddns.net/api/stats?t=${SESSION_TOKEN}&n=${isFirstLoad}`);
+            // Using a relative path is safer and prevents SSL/CORS issues
+            const res = await fetch(`/api/stats?t=${SESSION_TOKEN}&n=${isFirstLoad}`);
             const data = await res.json();
             
             if (data) {
