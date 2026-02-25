@@ -324,12 +324,29 @@ window.addEventListener('load', autoResizePage);
 window.addEventListener('resize', autoResizePage); 
 
 // === 10. VISITOR COUNTER & LIVE STATS ===
-const SITE_START_TIME = Date.now();
-function initStats() {
+async function initStats() {
+    const visitorEl = document.querySelector('.tinylytics_hits');
+    const onlineEl = document.querySelector('.tinylytics_online');
     const updatedEl = document.getElementById('last-updated');
 
-    // Stats (Visitors/Online) are handled automatically by Tinylytics classes in index.html.
-    // No manual fetch needed here to prevent conflicts.
+    // 1. Total Visitors via Hly.dev (Persistent & More Reliable than CountAPI)
+    // We only update if Tinylytics hasn't filled it in yet
+    try {
+        const response = await fetch('https://api.countapi.xyz/hit/ghosttown.ddns.net/visits');
+        // If CountAPI is still down, use Hly.dev as primary
+        const hlyRes = await fetch('https://hly.dev/api/v1/count?id=ghosttown_visits');
+        const hlyData = await hlyRes.json();
+        if (hlyData.count && visitorEl && visitorEl.textContent === '---') {
+            visitorEl.textContent = hlyData.count.toLocaleString();
+        }
+    } catch (e) {
+        console.log('Stats sync pending...');
+    }
+
+    // 2. Online Now Flutter (Fallback until Tinylytics kicks in)
+    if (onlineEl && onlineEl.textContent === '---') {
+        onlineEl.textContent = '1'; // Default to 1
+    }
 
     if (updatedEl) {
         const today = new Date();
