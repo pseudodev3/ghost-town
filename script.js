@@ -324,11 +324,23 @@ window.addEventListener('load', autoResizePage);
 window.addEventListener('resize', autoResizePage); 
 
 // === 10. VISITOR COUNTER & LIVE STATS ===
-function initStats() {
+async function initStats() {
+    const visitorEl = document.querySelector('.tinylytics_hits');
+    const onlineEl = document.querySelector('.tinylytics_online');
     const updatedEl = document.getElementById('last-updated');
 
-    // Stats (Visitors/Online) are handled automatically by Tinylytics classes in index.html.
-    // We let the Tinylytics script do its work.
+    // Manually fetch Tinylytics stats for better reliability
+    try {
+        const response = await fetch('https://tinylytics.app/api/v1/sites/uGjPqJpsDJkX-zxpPg8f/stats.json');
+        const data = await response.json();
+        
+        if (data) {
+            if (visitorEl) visitorEl.textContent = data.hits.toLocaleString();
+            if (onlineEl) onlineEl.textContent = data.online.toString();
+        }
+    } catch (e) {
+        console.log('Tinylytics sync pending...');
+    }
 
     if (updatedEl) {
         const today = new Date();
