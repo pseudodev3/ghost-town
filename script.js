@@ -324,27 +324,37 @@ window.addEventListener('load', autoResizePage);
 window.addEventListener('resize', autoResizePage); 
 
 // === 10. VISITOR COUNTER & LIVE STATS ===
-const SITE_START_TIME = Date.now();
+const SESSION_TOKEN = Math.random().toString(36).substring(2, 15);
+let isFirstLoad = true;
+
 async function initStats() {
     const visitorEl = document.getElementById('visitor-count');
     const onlineEl = document.getElementById('online-count');
     const updatedEl = document.getElementById('last-updated');
 
-    // Real hit counter via Hly.dev (Stable & CORS-friendly)
-    try {
-        const res = await fetch('https://hly.dev/api/v1/count?id=ghosttown_v3');
-        const data = await res.json();
-        
-        if (data && data.count) {
-            if (visitorEl) visitorEl.textContent = data.count.toLocaleString();
-            // Online count: Since we don't have a backend socket, we use a 
-            // realistic "active" simulation (1 to 3 users) based on real hits.
-            if (onlineEl) onlineEl.textContent = (Math.floor(Math.random() * 2) + 1).toString();
+    async function updateStats() {
+        try {
+            // We ping your server's API. 
+            // n=true only on first load to increment hits.
+            // t=TOKEN identifies this specific tab as "online".
+            const res = await fetch(`https://ghosttown.ddns.net/api/stats?t=${SESSION_TOKEN}&n=${isFirstLoad}`);
+            const data = await res.json();
+            
+            if (data) {
+                if (visitorEl) visitorEl.textContent = data.hits.toLocaleString();
+                if (onlineEl) onlineEl.textContent = data.online.toString();
+                isFirstLoad = false;
+            }
+        } catch (e) {
+            console.log('Stats server not reachable...');
+            if (visitorEl && visitorEl.textContent === '---') visitorEl.textContent = '000,042';
+            if (onlineEl && onlineEl.textContent === '---') onlineEl.textContent = '1';
         }
-    } catch (e) {
-        if (visitorEl) visitorEl.textContent = '000,021';
-        if (onlineEl) onlineEl.textContent = '1';
     }
+
+    // Update immediately, then every 30 seconds (the heartbeat)
+    updateStats();
+    setInterval(updateStats, 30000);
 
     if (updatedEl) {
         const today = new Date();
