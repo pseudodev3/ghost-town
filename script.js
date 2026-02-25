@@ -324,6 +324,7 @@ window.addEventListener('load', autoResizePage);
 window.addEventListener('resize', autoResizePage); 
 
 // === 10. VISITOR COUNTER & LIVE STATS ===
+const SITE_START_TIME = Date.now();
 const SESSION_TOKEN = Math.random().toString(36).substring(2, 15);
 let isFirstLoad = true;
 
