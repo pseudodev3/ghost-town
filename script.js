@@ -325,18 +325,30 @@ window.addEventListener('resize', autoResizePage);
 
 // === 10. VISITOR COUNTER & LIVE STATS ===
 const SITE_START_TIME = Date.now();
-function initStats() {
+async function initStats() {
     const counter = document.getElementById('visitor-count');
+    const onlineEl = document.getElementById('online-count');
     const updatedEl = document.getElementById('last-updated');
+
+    // Real CountAPI implementation (persistent total hits)
     if (counter) {
-        let count = parseInt(localStorage.getItem('ghost_visitors') || '1240');
-        if (!sessionStorage.getItem('ghost_visited')) {
-            count += Math.floor(Math.random() * 5) + 1;
-            localStorage.setItem('ghost_visitors', count);
-            sessionStorage.setItem('ghost_visited', 'true');
+        try {
+            // This is a REAL public API that counts visits for your domain
+            const response = await fetch('https://api.countapi.xyz/hit/ghosttown.ddns.net/visits');
+            const data = await response.json();
+            if (data.value) {
+                counter.textContent = data.value.toLocaleString();
+            }
+        } catch (e) {
+            counter.textContent = '---';
         }
-        counter.textContent = count.toString().padStart(6, '0').replace(/(\d{3})(\d{3})/, '$1,$2');
     }
+
+    // Real-time "Online" - Tinylytics handles this automatically via the script tag
+    if (onlineEl) {
+        // We let Tinylytics populate this. No more fake flutter.
+    }
+
     if (updatedEl) {
         const today = new Date();
         const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
