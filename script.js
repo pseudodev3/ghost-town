@@ -412,9 +412,9 @@ function updateSystemMonitor() {
 
 // === 13.5 SPOTIFY INTEGRATION ===
 const SPOTIFY_CONFIG = {
-    clientId: '', // Add your Client ID
-    clientSecret: '', // Add your Client Secret
-    refreshToken: '' // Add your Refresh Token
+    clientId: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
+    clientSecret: import.meta.env.VITE_SPOTIFY_CLIENT_SECRET,
+    refreshToken: import.meta.env.VITE_SPOTIFY_REFRESH_TOKEN
 };
 
 let spotifyAccessToken = '';
