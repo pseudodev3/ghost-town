@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1024">
+    <title>THE RANGER'S JOURNAL // GHOST TOWN MAP</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none'%3E%3Cpath d='M16 2C9 2 4 8 4 15V28L10 24L16 28L22 24L28 28V15C28 8 23 2 16 2Z' fill='%23050505' opacity='0.9'/%3E%3Cpath d='M16 2C9 2 4 8 4 15V28L10 24L16 28L22 24L28 28V15C28 8 23 2 16 2Z' stroke='%23a0c4ff' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M10 13L14 15L10 17V13Z' fill='%23a0c4ff'/%3E%3Cpath d='M22 13L18 15L22 17V13Z' fill='%23a0c4ff'/%3E%3C/svg%3E">
+    
+    <!-- Optimized Font Loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Pirata+One&family=Special+Elite&family=Reenie+Beanie&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --ink: #1a120b;
+            --paper: #c2b280;
+            --highlight: #f4e4bc;
+            --marker-red: #8b0000;
+        }
+
+        body {
+            background: radial-gradient(circle at center, #1a120b 0%, #050505 100%);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: 'IM Fell English SC', serif;
+        }
+
+        /* --- THE WOODEN DESK --- */
+        .desk {
+            position: fixed;
+            inset: 0;
+            background: 
+                linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)),
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='0.2'/%3E%3C/svg%3E");
+            z-index: -2;
+        }
+
+        /* --- THE DYNAMIC LANTERN --- */
+        #lantern {
+            position: fixed;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255, 180, 80, 0.18) 0%, rgba(0,0,0,0) 70%);
+            pointer-events: none;
+            z-index: 10;
+            mix-blend-mode: screen;
+            transform: translate(-50%, -50%);
+        }
+
+        /* --- THE PHYSICAL PARCHMENT --- */
+        .map-paper {
+            width: 950px;
+            height: 750px;
+            background-color: var(--paper);
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paperNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperNoise)' opacity='0.15'/%3E%3C/svg%3E");
+            position: relative;
+            box-shadow: 
+                0 40px 80px rgba(0,0,0,0.9),
+                inset 0 0 120px rgba(0,0,0,0.3);
+            border: 1px solid #000;
+            transform-style: preserve-3d;
+            perspective: 1200px;
+            transition: transform 0.1s ease-out;
+            clip-path: polygon(1% 0%, 99% 1%, 100% 3%, 98% 97%, 96% 100%, 4% 99%, 0% 96%, 1% 4%);
+        }
+
+        /* --- THE MAP IMAGE (Material Integration) --- */
+        .map-surface {
+            position: absolute;
+            inset: 10px;
+            background-image: url('maps.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            mix-blend-mode: multiply; 
+            opacity: 0.85;
+            filter: sepia(0.2) contrast(1.1);
+        }
+
+        /* --- POST-PROCESSING OVERLAYS --- */
+        .dust-layer {
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none;
+            opacity: 0.4;
+            z-index: 5;
+        }
+
+        .coffee-ring {
+            position: absolute;
+            width: 180px; height: 180px;
+            border: 3px solid rgba(80, 50, 20, 0.08);
+            border-radius: 50%;
+            top: 10%; right: 5%;
+            pointer-events: none;
+            z-index: 6;
+        }
+
+        /* --- INTERACTIVE HOTSPOTS --- */
+        .hotspot {
+            position: absolute;
+            cursor: pointer;
+            z-index: 20;
+            display: block;
+            text-decoration: none;
+        }
+        .hotspot:hover { 
+            border: 1px dashed rgba(61, 43, 31, 0.4); 
+            background: rgba(61, 43, 31, 0.05);
+        }
+        .hotspot:hover .tooltip { opacity: 1; transform: translate(-50%, -10px); }
+
+        .tooltip {
+            position: absolute;
+            bottom: 100%; left: 50%;
+            transform: translate(-50%, 0);
+            background: #fdf5e6;
+            border: 1px solid var(--ink);
+            padding: 10px;
+            width: 160px;
+            font-size: 10px;
+            font-family: 'Special Elite', serif;
+            text-align: center;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+            box-shadow: 5px 5px 0 rgba(0,0,0,0.2);
+            color: var(--ink);
+            z-index: 30;
+        }
+
+        /* --- "YOU ARE HERE" MARKER --- */
+        .current-marker {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            pointer-events: none;
+            z-index: 25;
+            animation: bob 2s infinite ease-in-out;
+        }
+
+        .pin-head {
+            width: 12px; height: 12px;
+            background: var(--marker-red);
+            border-radius: 50%;
+            border: 1px solid rgba(0,0,0,0.5);
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            position: absolute;
+            left: 14px; top: 14px;
+        }
+
+        .pin-shadow {
+            position: absolute;
+            bottom: 5px; left: 14px;
+            width: 12px; height: 4px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 50%;
+            filter: blur(2px);
+            animation: shadow-scale 2s infinite ease-in-out;
+        }
+
+        .you-are-here-label {
+            position: absolute;
+            top: -25px; left: 50%;
+            transform: translateX(-50%) rotate(-5deg);
+            font-family: 'Reenie Beanie', cursive;
+            font-size: 18px;
+            color: var(--marker-red);
+            white-space: nowrap;
+            text-shadow: 0 0 2px rgba(255,255,255,0.8);
+        }
+
+        .hand-drawn-arrow {
+            position: absolute;
+            top: 0; left: -15px;
+            width: 20px; height: 20px;
+            fill: none;
+            stroke: var(--marker-red);
+            stroke-width: 2;
+            transform: rotate(180deg);
+        }
+
+        @keyframes bob {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        @keyframes shadow-scale {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(0.8); opacity: 0.1; }
+        }
+
+
+        .back-btn {
+            position: fixed;
+            top: 40px; left: 40px;
+            z-index: 100;
+            font-family: 'Pirata One', cursive;
+            color: var(--paper);
+            text-decoration: none;
+            font-size: 24px;
+            letter-spacing: 2px;
+            border-bottom: 2px solid var(--paper);
+            padding-bottom: 4px;
+            transition: 0.3s;
+            opacity: 0.6;
+        }
+
+        .back-btn:hover { color: #fff; border-color: #fff; opacity: 1; }
+
+    </style>
+</head>
+<body>
+
+    <div class="desk"></div>
+    <div id="lantern"></div>
+
+    <a href="index.html" class="back-btn">RETURN TO TOWN</a>
+
+    <div class="map-paper" id="paper">
+        <div class="dust-layer"></div>
+        <div class="coffee-ring"></div>
+        
+        <div class="map-surface"></div>
+
+        <!-- YOU ARE HERE MARKER -->
+        <div class="current-marker" style="top: 40%; left: 74%;">
+            <div class="you-are-here-label">
+                You Are Here
+                <svg class="hand-drawn-arrow" viewBox="0 0 20 20">
+                    <path d="M15,5 Q10,10 5,5 M10,10 L10,18" stroke-linecap="round" />
+                </svg>
+            </div>
+            <div class="pin-head"></div>
+            <div class="pin-shadow"></div>
+        </div>
+
+        <!-- HOTSPOTS -->
+        <!-- SALOON (HOME) -->
+        <a href="index.html" class="hotspot" style="top: 20%; left: 22%; width: 14%; height: 18%;">
+            <div class="tooltip"><strong>THE SALOON</strong><br>The heart of Ghost Town. Return to the main hub.</div>
+        </a>
+
+        <!-- COOL PLACES -->
+        <a href="places.html" class="hotspot" style="top: 22%; left: 60%; width: 16%; height: 18%;">
+            <div class="tooltip"><strong>OUTSIDE LANDS</strong><br>Cool places discovered beyond the borders.</div>
+        </a>
+
+        <!-- TRAIL MAP (MAPS) -->
+        <div class="hotspot" style="top: 36%; left: 62%; width: 15%; height: 18%; cursor: default;">
+            <div class="tooltip"><strong>TRAIL MAP</strong><br>Current Location.</div>
+        </div>
+
+        <!-- SHERIFE'S STATION (PROJECTS) -->
+        <a href="index.html#win-db" class="hotspot" style="top: 45%; left: 38%; width: 15%; height: 16%;">
+            <div class="tooltip"><strong>SHERIFE'S STATION</strong><br>The Project Database. Ongoing investigations.</div>
+        </a>
+
+        <!-- FRONTIER (PAINTINGS) -->
+        <a href="paintings.html" class="hotspot" style="top: 52%; left: 19%; width: 16%; height: 15%;">
+            <div class="tooltip"><strong>THE FRONTIER</strong><br>Gallery of lost paintings and digital artifacts.</div>
+        </a>
+
+        <!-- TOWN GAZETTE (BLOG) -->
+        <a href="index.html#win-blog" class="hotspot" style="top: 78%; left: 16%; width: 15%; height: 15%;">
+            <div class="tooltip"><strong>TOWN GAZETTE</strong><br>Read the latest logs and archived stories.</div>
+        </a>
+
+        <!-- TELEGRAPH STATION (BLOG) -->
+        <a href="index.html#win-blog" class="hotspot" style="top: 72%; left: 66%; width: 16%; height: 18%;">
+            <div class="tooltip"><strong>TELEGRAPH STATION</strong><br>Direct wire to the latest project updates.</div>
+        </a>
+
+        <div style="position: absolute; bottom: 40px; right: 60px; opacity: 0.4; pointer-events: none;">
+            <svg width="80" height="80" viewBox="0 0 100 100">
+                <path d="M50,10 L55,45 L90,50 L55,55 L50,90 L45,55 L10,50 L45,45 Z" fill="var(--ink)"/>
+                <text x="46" y="25" font-family="Pirata One" font-size="12" fill="var(--ink)">N</text>
+            </svg>
+        </div>
+    </div>
+
+    <script>
+        const lantern = document.getElementById('lantern');
+        const paper = document.getElementById('paper');
+
+        document.addEventListener('mousemove', (e) => {
+            lantern.style.left = e.clientX + 'px';
+            lantern.style.top = e.clientY + 'px';
+            const xVal = (e.clientX / window.innerWidth - 0.5) * 8;
+            const yVal = (e.clientY / window.innerHeight - 0.5) * 8;
+            paper.style.transform = `rotateY(${xVal}deg) rotateX(${-yVal}deg)`;
+        });
+    </script>
+</body>
+</html>

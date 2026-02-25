@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Places</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none'%3E%3Cpath d='M16 2C9 2 4 8 4 15V28L10 24L16 28L22 24L28 28V15C28 8 23 2 16 2Z' fill='%23050505' opacity='0.9'/%3E%3Cpath d='M16 2C9 2 4 8 4 15V28L10 24L16 28L22 24L28 28V15C28 8 23 2 16 2Z' stroke='%23a0c4ff' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M10 13L14 15L10 17V13Z' fill='%23a0c4ff'/%3E%3Cpath d='M22 13L18 15L22 17V13Z' fill='%23a0c4ff'/%3E%3C/svg%3E">
+    <style>
+        :root {
+            --sky: #4cc9f0;
+            --sea-top: #4361ee;
+            --sea-bottom: #3a0ca3;
+            --sand: #fefae0;
+            --accent: #f72585;
+            --text: #ffffff;
+            --glass: rgba(255, 255, 255, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--sky);
+            color: var(--text);
+            font-family: 'Verdana', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* PIXEL ART BEACH BACKGROUND */
+        .world-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sky {
+            flex: 0.4;
+            background: linear-gradient(to bottom, #00b4d8, #90e0ef);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* NEW: PIXEL SUN */
+        .sun {
+            position: absolute;
+            top: 40px; left: 80px;
+            width: 80px; height: 80px;
+            background: #ffea00;
+            border-radius: 50%;
+            box-shadow: 0 0 0 10px rgba(255, 234, 0, 0.2), 
+                        0 0 0 20px rgba(255, 234, 0, 0.1);
+            animation: sun-glow 4s infinite alternate ease-in-out;
+        }
+
+        @keyframes sun-glow {
+            from { transform: scale(1); filter: brightness(1); }
+            to { transform: scale(1.1); filter: brightness(1.2); }
+        }
+
+        /* NEW: PIXEL BIRDS */
+        .bird {
+            position: absolute;
+            width: 20px; height: 10px;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 10'><path d='M0 5 L5 0 L10 5 L15 0 L20 5' fill='none' stroke='black' stroke-width='2'/></svg>");
+            animation: bird-fly 20s infinite linear;
+            z-index: 2;
+        }
+
+        @keyframes bird-fly {
+            from { left: 110%; }
+            to { left: -10%; }
+        }
+
+        /* PIXEL CLOUDS */
+        .cloud {
+            position: absolute;
+            background: #fff;
+            width: 60px; height: 20px;
+            border-radius: 4px;
+            box-shadow: 20px 10px 0 #fff, -20px 5px 0 #fff;
+            opacity: 0.8;
+            animation: cloud-drift 60s infinite linear;
+        }
+
+        @keyframes cloud-drift {
+            from { left: -100px; }
+            to { left: 110%; }
+        }
+
+        .sea {
+            flex: 0.5;
+            background: var(--sea-top);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* NEW: WATER SPARKLES */
+        .sparkles {
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle, white 1px, transparent 1px);
+            background-size: 100px 100px;
+            animation: sparkle-move 10s infinite linear;
+            opacity: 0.3;
+        }
+
+        @keyframes sparkle-move {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; }
+        }
+
+        /* ANIMATED PIXEL WAVES */
+        .wave {
+            position: absolute;
+            top: 0; left: 0; width: 200%; height: 100px;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'><path d='M0 10 L10 10 L10 0 L20 0 L20 10 L30 10 L30 20 L40 20 L40 10 L50 10 L50 0 L60 0 L60 10 L70 10 L70 20 L80 20 L80 10 L90 10 L90 0 L100 0 L100 10' fill='white' opacity='0.3'/></svg>");
+            background-size: 100px 20px;
+            background-repeat: repeat-x;
+            animation: wave-flow 4s infinite steps(10);
+        }
+
+        .wave-2 { top: 30px; animation-duration: 6s; opacity: 0.5; animation-direction: reverse; }
+        .wave-3 { top: 70px; animation-duration: 8s; opacity: 0.2; }
+
+        @keyframes wave-flow {
+            from { transform: translateX(0); }
+            to { transform: translateX(-100px); }
+        }
+
+        /* NEW: SHORELINE */
+        .shore {
+            flex: 0.1;
+            background: #fefae0;
+            border-top: 4px solid #fff;
+            position: relative;
+        }
+
+        .shore::before {
+            content: '';
+            position: absolute;
+            top: -10px; left: 0; width: 100%; height: 10px;
+            background: rgba(255,255,255,0.4);
+        }
+
+        /* NAVIGATION */
+        .nav-ui {
+            position: fixed;
+            top: 30px; right: 30px;
+            z-index: 100;
+        }
+
+        .exit-btn {
+            text-decoration: none;
+            color: #fff;
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            padding: 8px 16px;
+            background: rgba(0,0,0,0.3);
+            border: 2px solid #fff;
+            image-rendering: pixelated;
+            transition: 0.2s;
+        }
+
+        .exit-btn:hover {
+            background: var(--accent);
+            transform: scale(1.1);
+        }
+
+        /* SCROLL CONTAINER */
+        .scroll-container {
+            position: relative;
+            z-index: 10;
+            padding: 100px 5vw;
+            display: flex;
+            flex-direction: column;
+            gap: 10vh;
+        }
+
+        /* SECTION */
+        .portal-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .portal-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .portal-section:nth-child(even) { flex-direction: row-reverse; }
+
+        .image-frame {
+            flex: 1;
+            aspect-ratio: 4/3;
+            border: 8px solid #fff;
+            box-shadow: 10px 10px 0 rgba(0,0,0,0.2);
+            overflow: hidden;
+            background: #000;
+        }
+
+        .image-frame img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: 0.5s;
+        }
+
+        .portal-section:hover img { transform: scale(1.1); }
+
+        .info-pane {
+            flex: 0.6;
+            background: var(--glass);
+            backdrop-filter: blur(5px);
+            padding: 30px;
+            border: 4px solid #fff;
+        }
+
+        .place-name {
+            font-size: 24px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 0 var(--accent);
+        }
+
+        .place-link {
+            display: inline-block;
+            color: #fff;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: bold;
+            background: #000;
+            padding: 10px 15px;
+            transition: 0.2s;
+        }
+
+        .place-link:hover {
+            background: var(--accent);
+            transform: translate(5px, -5px);
+            box-shadow: -5px 5px 0 #fff;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <div class="world-bg">
+        <div class="sky">
+            <!-- PIXEL SUN -->
+            <div class="sun"></div>
+            
+            <!-- SEAGULLS -->
+            <div class="bird" style="top: 15%; animation-delay: 0s; transform: scale(0.5);"></div>
+            <div class="bird" style="top: 25%; animation-delay: -15s; transform: scale(0.7);"></div>
+            <div class="bird" style="top: 10%; animation-delay: -30s;"></div>
+
+            <div class="cloud" style="top: 20%; animation-delay: -10s;"></div>
+            <div class="cloud" style="top: 50%; animation-delay: -35s;"></div>
+            <div class="cloud" style="top: 15%; animation-delay: -50s;"></div>
+        </div>
+        <div class="sea">
+            <div class="wave"></div>
+            <div class="wave wave-2"></div>
+            <!-- WATER SPARKLES -->
+            <div class="sparkles"></div>
+            <div class="wave wave-3"></div>
+        </div>
+        <!-- SHORELINE -->
+        <div class="shore"></div>
+    </div>
+
+    <div class="nav-ui">
+        <a href="index.html" class="exit-btn">BACK_TO_GHOST_TOWN</a>
+    </div>
+
+    <div class="scroll-container">
+        <!-- PORTAL 01 -->
+        <section class="portal-section">
+            <div class="image-frame">
+                <img src="https://images.unsplash.com/photo-1596390305531-2c21653bbd0c?auto=format&fit=crop&q=80&w=800" alt="Salar de Uyuni">
+            </div>
+            <div class="info-pane">
+                <h2 class="place-name">Salar de Uyuni</h2>
+                <a href="https://en.wikipedia.org/wiki/Salar_de_Uyuni" target="_blank" class="place-link">VISIT_WIKI</a>
+            </div>
+        </section>
+
+        <!-- PORTAL 02 -->
+        <section class="portal-section">
+            <div class="image-frame">
+                <img src="https://images.unsplash.com/photo-1531366930499-61a5ef21b1be?auto=format&fit=crop&q=80&w=800" alt="Northern Lights">
+            </div>
+            <div class="info-pane">
+                <h2 class="place-name">Northern Lights</h2>
+                <a href="https://en.wikipedia.org/wiki/Aurora" target="_blank" class="place-link">VISIT_WIKI</a>
+            </div>
+        </section>
+
+        <!-- PORTAL 03 -->
+        <section class="portal-section">
+            <div class="image-frame">
+                <img src="https://images.unsplash.com/photo-1506634064465-7dab4de896ed?auto=format&fit=crop&q=80&w=800" alt="Cappadocia">
+            </div>
+            <div class="info-pane">
+                <h2 class="place-name">Cappadocia</h2>
+                <a href="https://en.wikipedia.org/wiki/Cappadocia" target="_blank" class="place-link">VISIT_WIKI</a>
+            </div>
+        </section>
+
+        <!-- PORTAL 04 -->
+        <section class="portal-section">
+            <div class="image-frame">
+                <img src="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&q=80&w=800" alt="Santorini">
+            </div>
+            <div class="info-pane">
+                <h2 class="place-name">Santorini</h2>
+                <a href="https://en.wikipedia.org/wiki/Santorini" target="_blank" class="place-link">VISIT_WIKI</a>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const sections = document.querySelectorAll('.portal-section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        sections.forEach(s => observer.observe(s));
+    </script>
+</body>
+</html>
