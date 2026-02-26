@@ -214,33 +214,8 @@
 
     <!-- BLOG SECTION -->
     <div class="window" id="win-blog" style="top: 1065px; left: calc(50% - 420px); width: 600px;">
-        <div class="title-bar">
-            <div class="win-title"><svg class="win-icon" viewBox="0 0 24 24"><path d="M12 2C7.5 2 4 5.5 4 10V21L7 18L10 21L12 19L14 21L17 18L20 21V10C20 5.5 16.5 2 12 2ZM9 11C8.2 11 7.5 10.3 7.5 9.5C7.5 8.7 8.2 8 9 8C9.8 8 10.5 8.7 10.5 9.5C10.5 10.3 9.8 11 9 11ZM15 11C14.2 11 13.5 10.3 13.5 9.5C13.5 8.7 14.2 8 15 8C15.8 8 16.5 8.7 16.5 9.5C16.5 10.3 15.8 11 15 11Z" fill="currentColor"/></svg> BLOG</div>
-            <div class="dots"><div class="dot"></div></div>
-        </div>
-        <div class="content blog-content">
-            <div class="blog-list" id="blog-list">
-                <div class="blog-entry">
-                    <div class="blog-date">FEB 19, 2026</div>
-                    <div class="blog-title">La Vague Streetwear</div>
-                    <div class="blog-excerpt">Finished building the digital storefront for La Vague. Deep dives into texture, minimalism, and flow.</div>
-                </div>
-                <div class="blog-entry">
-                    <div class="blog-date">FEB 05, 2026</div>
-                    <div class="blog-title">Building GHOST</div>
-                    <div class="blog-excerpt">Created a personal AI that lives on my laptop. It sees, it remembers, it helps.</div>
-                </div>
-                <div class="blog-entry">
-                    <div class="blog-date">JAN 20, 2026</div>
-                    <div class="blog-title">The 2030 Deadline</div>
-                    <div class="blog-excerpt">Setting impossible goals and chasing them. Superhero status or bust.</div>
-                </div>
-                <div class="blog-entry">
-                    <div class="blog-date">DEC 15, 2025</div>
-                    <div class="blog-title">Ghost Town Goes Live</div>
-                    <div class="blog-excerpt">Finally launched my personal site. CRT effects, ghost pets, and all.</div>
-                </div>
-            </div>
+        <div class="content blog-content" style="padding: 0;">
+            <div id="pixel-blog-container"></div>
         </div>
     </div>
 
@@ -313,6 +288,53 @@
 
     <audio id="bg-music" loop><source src="music.mp3" type="audio/mpeg"></audio>
 
+    <script src="pixel-blog.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof PixelBlog !== 'undefined') {
+                PixelBlog.mount({
+                    container: '#pixel-blog-container',
+                    adminPassword: 'ghost-town-1337',
+                    storageKey: 'ghost_town_blog',
+                    enableAdmin: true,
+                    posts: [
+                        {
+                            id: 1,
+                            title: "La Vague Streetwear",
+                            date: "2026-02-19",
+                            category: "Project",
+                            excerpt: "Finished building the digital storefront for La Vague. Deep dives into texture, minimalism, and flow.",
+                            content: "Finished building the digital storefront for La Vague. Deep dives into texture, minimalism, and flow."
+                        },
+                        {
+                            id: 2,
+                            title: "Building GHOST",
+                            date: "2026-02-05",
+                            category: "AI",
+                            excerpt: "Created a personal AI that lives on my laptop. It sees, it remembers, it helps.",
+                            content: "Created a personal AI that lives on my laptop. It sees, it remembers, it helps."
+                        },
+                        {
+                            id: 3,
+                            title: "The 2030 Deadline",
+                            date: "2026-01-20",
+                            category: "Goals",
+                            excerpt: "Setting impossible goals and chasing them. Superhero status or bust.",
+                            content: "Setting impossible goals and chasing them. Superhero status or bust."
+                        },
+                        {
+                            id: 4,
+                            title: "Ghost Town Goes Live",
+                            date: "2025-12-15",
+                            category: "Launch",
+                            excerpt: "Finally launched my personal site. CRT effects, ghost pets, and all.",
+                            content: "Finally launched my personal site. CRT effects, ghost pets, and all."
+                        }
+                    ]
+                });
+            }
+        });
+    </script>
     <script type="module" src="script.js"></script>
 </body>
 </html>
