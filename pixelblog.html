@@ -9,7 +9,6 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            image-rendering: pixelated;
         }
         body {
             background: #000;
@@ -17,6 +16,7 @@
             font-family: 'Courier New', Courier, monospace;
             min-height: 100vh;
             position: relative;
+            image-rendering: pixelated;
         }
         /* Tree background with overlay */
         body::before {
@@ -28,10 +28,11 @@
             height: 100%;
             background: 
                 linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
-                url('src/assets/tree.webp');
+                url('assets/tree.webp');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
+            image-rendering: pixelated;
             z-index: -2;
         }
         /* CRT scanline effect */
