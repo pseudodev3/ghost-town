@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1024">
+    <title>ghost town</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none'%3E%3Cpath d='M16 2C9 2 4 8 4 15V28L10 24L16 28L22 24L28 28V15C28 8 23 2 16 2Z' fill='%23050505' opacity='0.9'/%3E%3Cpath d='M16 2C9 2 4 8 4 15V28L10 24L16 28L22 24L28 28V15C28 8 23 2 16 2Z' stroke='%23a0c4ff' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M10 13L14 15L10 17V13Z' fill='%23a0c4ff'/%3E%3Cpath d='M22 13L18 15L22 17V13Z' fill='%23a0c4ff'/%3E%3C/svg%3E">
+  <script type="module" crossorigin src="/assets/main-5-NalSE1.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/style-BOAFCOmN.css">
+</head>
+<body>
+
+    <div class="bg-traces">
+        <svg viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+            <path d="M0,100 H200 V300 H400 V100 H1920" stroke="rgba(255,255,255,0.03)" stroke-width="2" fill="none"/>
+            <path d="M100,0 V200 H300 V400 H100 V1080" stroke="rgba(255,255,255,0.03)" stroke-width="2" fill="none"/>
+            <path d="M1920,500 H1700 V700 H1500 V500 H0" stroke="rgba(255,255,255,0.03)" stroke-width="2" fill="none" stroke-dasharray="10,5"/>
+        </svg>
+    </div>
+
+    <div class="crt-overlay"></div>
+    <div id="big-bang-overlay" class="big-bang-overlay"></div>
+    <div id="sound-notif" class="sound-toast">SOUND: ON</div>
+
+    <div class="sign-wrapper" style="left: calc(50% - 450px);">
+        <div class="sign-underglow"></div>
+        <div class="sign-structure"></div>
+        <svg class="wires-svg" viewBox="0 0 450 100">
+            <path d="M 20,40 C 60,70 120,30 160,50 S 260,70 320,40 S 380,60 410,50" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" />
+            <path d="M 20,42 C 60,72 120,32 160,52 S 260,72 320,42 S 380,62 410,52" fill="none" stroke="#000" stroke-width="0.5" stroke-opacity="0.5" />
+        </svg>
+        <div class="sign-text">
+            <span class="let glow" data-letter="G">G</span><span class="let off beam-cycle" data-letter="H">H</span><span class="let glow flicker-fast" data-letter="O">O</span><span class="let glow falling-1" data-letter="S">S</span><span class="let glow" data-letter="T">T</span>
+            <span class="spacer"></span>
+            <span class="let glow flicker-slow" data-letter="T">T</span><span class="let glow" data-letter="O">O</span><span class="let off beam-cycle" style="animation-delay: 0.1s;" data-letter="W">W</span><span class="let glow falling-2" data-letter="N">N</span>
+        </div>
+        <div class="socket" id="power-socket" title="Click to unplug"><div class="outlet"></div><div class="outlet"></div></div>
+        <div class="plug" id="power-plug"></div>
+    </div>
+
+    <div class="sun-frame">
+        <div class="the-sun"></div>
+    </div>
+
+    <canvas id="ash-canvas"></canvas>
+
+    <div id="pixel-runner" class="pixel-pet runner-idle"></div>
+
+    <div id="pixel-superman" style="position: fixed; top: -100px; left: -100px; width: 45px; height: 45px; z-index: 60; pointer-events: none; transition: top 3s linear, left 3s linear;">
+        <div id="superman-sprite" class="pixel-pet super-fly" style="position: static;"></div>
+    </div>
+
+    <div class="ghost-layer">
+        <div class="ghost-wrapper"><svg class="ghost-svg" viewBox="0 0 120 140"><path d="M60,10 C30,10 10,35 10,70 C10,105 20,115 30,130 C40,145 50,125 60,135 C70,125 80,145 90,130 C100,115 110,105 110,70 C110,35 90,10 60,10 Z" fill="#e0e0e0" /><circle cx="45" cy="55" r="4" fill="#111" /><circle cx="75" cy="55" r="4" fill="#111" /></svg></div>
+    </div>
+
+    <div class="sticker" style="bottom: 20px; left: 20px;"><div class="badge"><span>NO</span> AI</div></div>
+    <div class="sticker" style="top: 20px; right: 20px;"><div class="badge"><span>HTML</span> 5</div></div>
+
+    <div class="window" id="win-profile" style="top: 150px; left: calc(50% - 420px); width: 600px; min-height: 140px; z-index: 50;">
+        <div class="title-bar">
+            <div class="win-title"><svg class="win-icon" viewBox="0 0 24 24"><path d="M12 2C7.5 2 4 5.5 4 10V21L7 18L10 21L12 19L14 21L17 18L20 21V10C20 5.5 16.5 2 12 2ZM9 11C8.2 11 7.5 10.3 7.5 9.5C7.5 8.7 8.2 8 9 8C9.8 8 10.5 8.7 10.5 9.5C10.5 10.3 9.8 11 9 11ZM15 11C14.2 11 13.5 10.3 13.5 9.5C13.5 8.7 14.2 8 15 8C15.8 8 16.5 8.7 16.5 9.5C16.5 10.3 15.8 11 15 11Z" fill="currentColor"/></svg> PROFILE</div>
+            <div class="dots"><div class="dot"></div></div>
+        </div>
+        <div class="content" style="padding-top: 25px; padding-bottom: 25px;">
+            <div class="profile-flex">
+                <img src="/assets/pfp--NxUTSSo.gif" class="avatar-img" alt="Ghost">
+                <div class="text-group">
+                    <h2>Ghost</h2>
+                    <span>Full Stack <span class="role-accent">Engineer</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="static-window" style="top: 310px; left: calc(50% - 420px); width: 600px;">
+        <div class="title-bar-static">
+            <div class="win-title"><svg class="win-icon" viewBox="0 0 24 24"><path d="M12 2C7.5 2 4 5.5 4 10V21L7 18L10 21L12 19L14 21L17 18L20 21V10C20 5.5 16.5 2 12 2ZM9 11C8.2 11 7.5 10.3 7.5 9.5C7.5 8.7 8.2 8 9 8C9.8 8 10.5 8.7 10.5 9.5C10.5 10.3 9.8 11 9 11ZM15 11C14.2 11 13.5 10.3 13.5 9.5C13.5 8.7 14.2 8 15 8C15.8 8 16.5 8.7 16.5 9.5C16.5 10.3 15.8 11 15 11Z" fill="currentColor"/></svg> ABOUT</div>
+        </div>
+        <div class="content">
+            <div class="bio-text">
+                <strong class="role-accent">Welcome to Ghost Town.</strong><br>
+                I love building things.<br><br>
+                Lately, I've been deep in <span class="role-accent">vibecoding</span>, chasing ideas for the sheer thrill of creation. It's chaotic, it's fun, and it keeps me alive.<br><br>
+                I've built some artifacts. Their utility is debatable, but they are mine. I may not have all the answers yet, but I am iterating.<br><br>
+                <div class="bio-line"><svg class="fact-ghost-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a8 8 0 0 0-8 8c0 5.4 3 7 3 7l1 1 2-1 2 1 2-1 1 1s3-1.6 3-7a8 8 0 0 0-8-8z"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg> Current Mission: Reach Superhero Status by 2030.</div>
+                <div class="bio-line"><svg class="fact-ghost-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a8 8 0 0 0-8 8c0 5.4 3 7 3 7l1 1 2-1 2 1 2-1 1 1s3-1.6 3-7a8 8 0 0 0-8-8z"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg> Stack: TypeScript, Rust, Python, & Persistence.</div>
+            </div>
+        </div>
+    </div>
+
+    <iframe class="ticker-frame" src="ticker.html" style="top: 598px; left: calc(50% - 420px);"></iframe>
+
+    <div class="window" id="win-db" style="top: 632px; left: calc(50% - 420px); width: 600px;">
+        <div class="title-bar">
+            <div class="win-title"><svg class="win-icon" viewBox="0 0 24 24"><path d="M12 2C7.5 2 4 5.5 4 10V21L7 18L10 21L12 19L14 21L17 18L20 21V10C20 5.5 16.5 2 12 2ZM9 11C8.2 11 7.5 10.3 7.5 9.5C7.5 8.7 8.2 8 9 8C9.8 8 10.5 8.7 10.5 9.5C10.5 10.3 9.8 11 9 11ZM15 11C14.2 11 13.5 10.3 13.5 9.5C13.5 8.7 14.2 8 15 8C15.8 8 16.5 8.7 16.5 9.5C16.5 10.3 15.8 11 15 11Z" fill="currentColor"/></svg> PROJECTS</div>
+            <div class="dots"><div class="dot"></div></div>
+        </div>
+        <div class="db-container">
+            <div class="db-header">
+                <span style="flex: 1.5;">Project</span>
+                <span style="flex: 3.5;">Mission Protocol</span>
+            </div>
+            <div id="repo-list">
+                <div class="db-row" style="cursor: wait;"><span class="db-name">...Decrypting...</span></div>
+            </div>
+        </div>
+        <div class="db-footer" id="repo-count">Initializing...</div>
+    </div>
+
+    <!-- LA VAGUE LOOKBOOK -->
+    <a href="https://la-vague.store" target="_blank" class="window window-lavague" id="win-lookbook" style="top: 835px; left: calc(50% - 420px); width: 600px; height: 200px; padding: 0; overflow: hidden; text-decoration: none; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer;">
+        <div style="font-family: 'Arial Black', sans-serif; font-size: 40px; color: #ff0000; letter-spacing: 15px; text-transform: uppercase;">LA VAGUE</div>
+        <div style="font-family: monospace; font-size: 10px; color: #600; margin-top: 10px; letter-spacing: 2px;">[ CLICK TO ENTER STORE ]</div>
+    </a>
+
+    <div style="position: absolute; top: 150px; left: calc(50% + 200px); width: 220px; display: flex; flex-direction: column; gap: 20px;">
+
+        <!-- STATUS WINDOW -->
+        <div class="window" id="win-status" style="position: relative; width: 100%;">
+            <div class="title-bar">
+                <div class="win-title"><svg class="win-icon" viewBox="0 0 24 24" style="color: #4caf50;"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg> STATUS</div>
+                <div class="dots"><div class="dot"></div></div>
+            </div>
+            <div class="content status-content">
+                <div class="status-indicator online"></div>
+                <div class="status-text">
+                    <div class="status-line">currently: <span id="current-activity">vibecoding</span></div>
+                    <div class="status-line">location: <span>the void</span></div>
+                    <div class="status-line">mood: <span id="current-mood">chaotic good</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NOW PLAYING WINDOW -->
+        <div class="window" id="win-nowplaying" style="position: relative; width: 100%;">
+            <div class="content playing-content">
+                <div class="song-info">
+                    <div class="song-art-container">
+                        <div class="song-art" id="spotify-art"></div>
+                        <div class="spotify-badge">
+                            <svg viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.378 0 0 5.378 0 12s5.378 12 12 12 12-5.378 12-12S18.622 0 12 0zm5.503 17.31c-.223.367-.703.485-1.07.262-2.987-1.825-6.747-2.238-11.173-1.228-.42.096-.84-.17-.937-.59-.096-.42.17-.84.59-.937 4.842-1.107 9.004-.633 12.33 1.4c.366.222.484.702.26 1.07zm1.47-3.253c-.28.455-.878.6-1.333.32-3.417-2.098-8.625-2.707-12.665-1.48-.512.155-1.05-.14-1.205-.652-.155-.512.14-1.05.652-1.205 4.628-1.403 10.37-.72 14.23 1.648.456.28.6.878.32 1.333zm.125-3.407C14.502 8.948 7.078 8.703 2.748 10.017c-.683.207-1.395-.183-1.603-.867-.207-.683.183-1.395.867-1.603 4.995-1.517 13.203-1.233 18.5 1.91.613.363.816 1.154.453 1.767-.363.613-1.154.816-1.767.453z"/></svg>
+                        </div>
+                    </div>
+                    <div class="song-details">
+                        <div class="song-status" id="spotify-status">LOADING...</div>
+                        <div class="song-name" id="spotify-name">---</div>
+                        <div class="song-artist" id="spotify-artist">---</div>
+                        <div class="song-time" id="spotify-time"></div>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="music-progress"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NAVIGATION WINDOW -->
+        <div class="window" id="win-nav" style="position: relative; width: 100%;">
+            <div class="title-bar">
+                <div class="win-title">NAV</div>
+                <div class="dots"><div class="dot"></div></div>
+            </div>
+            <div class="content nav-grid">
+                <a href="index.html" class="nav-item glitch-hover">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color: #eee;"><path d="M12 2a8 8 0 0 0-8 8c0 5.4 3 7 3 7l1 1 2-1 2 1 2-1 1 1s3-1.6 3-7a8 8 0 0 0-8-8z"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg>
+                    <span data-text="Home">Home</span>
+                </a>
+                <a href="places.html" class="nav-item glitch-hover">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color: #eee;"><path d="M12 2a8 8 0 0 0-8 8c0 5.4 3 7 3 7l1 1 2-1 2 1 2-1 1 1s3-1.6 3-7a8 8 0 0 0-8-8z"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg>
+                    <span data-text="Cool Places">Cool Places</span>
+                </a>
+                <a href="paintings.html" class="nav-item glitch-hover">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color: #eee;"><path d="M12 2a8 8 0 0 0-8 8c0 5.4 3 7 3 7l1 1 2-1 2 1 2-1 1 1s3-1.6 3-7a8 8 0 0 0-8-8z"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg>
+                    <span data-text="Paintings">Paintings</span>
+                </a>
+                <a href="maps.html" class="nav-item glitch-hover">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color: #eee;"><path d="M12 2a8 8 0 0 0-8 8c0 5.4 3 7 3 7l1 1 2-1 2 1 2-1 1 1s3-1.6 3-7a8 8 0 0 0-8-8z"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg>
+                    <span data-text="Maps">Maps</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- QUICK FACTS WINDOW -->
+        <div class="window" id="win-facts" style="position: relative; width: 100%;">
+            <div class="title-bar">
+                <div class="win-title">QUICK_FACTS</div>
+                <div class="dots"><div class="dot"></div></div>
+            </div>
+            <div class="content facts-list">
+                <div class="fact-item">
+                    <svg class="fact-ghost-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a8 8 0 0 0-8 8c0 5.4 3 7 3 7l1 1 2-1 2 1 2-1 1 1s3-1.6 3-7a8 8 0 0 0-8-8z"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg>
+                    chasing superhero status
+                </div>
+                <div class="fact-item">
+                    <svg class="fact-ghost-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a8 8 0 0 0-8 8c0 5.4 3 7 3 7l1 1 2-1 2 1 2-1 1 1s3-1.6 3-7a8 8 0 0 0-8-8z"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg>
+                    stack: TS/Rust/Python
+                </div>
+                <a href="void.html" class="fact-item" style="text-decoration: none; color: inherit; white-space: nowrap;">
+                    <svg class="fact-ghost-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a8 8 0 0 0-8 8c0 5.4 3 7 3 7l1 1 2-1 2 1 2-1 1 1s3-1.6 3-7a8 8 0 0 0-8-8z"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg>
+                    <span>loves building <span class="role-accent" style="cursor: pointer;">useless things</span></span>
+                </a>
+                <div class="fact-item">
+                    <svg class="fact-ghost-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a8 8 0 0 0-8 8c0 5.4 3 7 3 7l1 1 2-1 2 1 2-1 1 1s3-1.6 3-7a8 8 0 0 0-8-8z"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg>
+                    deadline: 2030
+                </div>
+            </div>
+        </div>
+
+        <div style="position: relative; width: 100%; height: 130px; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+            <iframe src="ad.html" style="width: 100%; height: 100%; border: none;"></iframe>
+        </div>
+
+    </div>
+
+    <!-- BLOG SECTION -->
+    <div class="window" id="win-blog" style="top: 1065px; left: calc(50% - 420px); width: 600px;">
+        <div class="content blog-content" style="padding: 0;">
+            <div id="pixel-blog-container"></div>
+        </div>
+    </div>
+
+    <!-- SYSTEM STATUS -->
+    <div class="window" id="win-system" style="top: 1062px; left: calc(50% + 200px); width: 220px;">
+        <div class="title-bar">
+            <div class="win-title"><svg class="win-icon" viewBox="0 0 24 24" style="color: #4caf50;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="currentColor"/></svg> SYSTEM</div>
+            <div class="dots"><div class="dot"></div></div>
+        </div>
+        <div class="content system-content">
+            <div class="system-grid">
+                <div class="sys-item"><span class="sys-ok">[OK]</span> ghost.town</div>
+                <div class="sys-item"><span class="sys-ok">[UP]</span> <span id="sys-uptime">00:00:00</span></div>
+                <div class="sys-item"><span class="sys-ok">[MS]</span> <span id="sys-latency">--ms</span></div>
+                <div class="sys-item"><span class="sys-ok">[MEM]</span> <span id="sys-memory">stable</span></div>
+                <div class="sys-item"><span class="sys-ok">[SSL]</span> active</div>
+                <div class="sys-item"><span class="sys-ok">[OS]</span> linux-vps</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VISITOR COUNTER & WEBRING -->
+    <div style="position: absolute; top: 1189px; left: calc(50% + 200px); width: 220px; display: flex; flex-direction: column; gap: 15px;">
+        
+        <div class="window" id="win-stats" style="position: relative; width: 100%;">
+            <div class="title-bar">
+                <div class="win-title"><svg class="win-icon" viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z" fill="currentColor"/></svg> STATS</div>
+                <div class="dots"><div class="dot"></div></div>
+            </div>
+            <div class="content stats-content">
+                <div class="stat-row">
+                    <span class="stat-label">VISITORS:</span>
+                    <span class="stat-value" id="visitor-count">---</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">ONLINE:</span>
+                    <span class="stat-value" id="online-count">---</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">UPDATED:</span>
+                    <span class="stat-value" id="last-updated">---</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SKIP BUTTONS / WEBRING -->
+        <div class="webring-box">
+            <div class="webring-label">NEIGHBORS</div>
+            <div class="webring-nav">
+                <a href="#" class="skip-btn" title="Previous">←</a>
+                <a href="#" class="skip-btn" title="Random">↻</a>
+                <a href="#" class="skip-btn" title="Next">→</a>
+            </div>
+        </div>
+
+        <!-- 88x31 BUTTONS AREA -->
+        <div class="button-box">
+            <div class="button-label">LINK ME</div>
+            <a href="/" class="my-button">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='31'%3E%3Crect width='88' height='31' fill='%23000'/%3E%3Ctext x='44' y='12' text-anchor='middle' fill='%23a0c4ff' font-family='monospace' font-size='8'%3EGHOST%3C/text%3E%3Ctext x='44' y='24' text-anchor='middle' fill='%23fff' font-family='monospace' font-size='8'%3ETOWN%3C/text%3E%3C/svg%3E" alt="GHOST TOWN" width="88" height="31">
+            </a>
+        </div>
+    </div>
+
+<div id="layout-spacer" style="position: absolute; width: 1px; height: 1px;"></div>
+
+    <div id="site-footer" style="position: absolute; left: 0; width: 100%; text-align: center; padding-bottom: 50px; color: #333; font-size: 10px; font-family: monospace; letter-spacing: 2px; pointer-events: none; text-transform: uppercase;">
+        © 2026 GHOST TOWN. ALL RIGHTS RESERVED.
+    </div>
+
+    <audio id="bg-music" loop><source src="/assets/music-BKjFy42E.mp3" type="audio/mpeg"></audio>
+
+    <script src="pixel-blog.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof PixelBlog !== 'undefined') {
+                PixelBlog.mount({
+                    container: '#pixel-blog-container',
+                    adminPassword: 'ghost-town-1337',
+                    storageKey: 'ghost_town_blog',
+                    enableAdmin: true,
+                    posts: [
+                        {
+                            id: 1,
+                            title: "La Vague Streetwear",
+                            date: "2026-02-19",
+                            category: "Project",
+                            excerpt: "Finished building the digital storefront for La Vague. Deep dives into texture, minimalism, and flow.",
+                            content: "Finished building the digital storefront for La Vague. Deep dives into texture, minimalism, and flow."
+                        },
+                        {
+                            id: 2,
+                            title: "Building GHOST",
+                            date: "2026-02-05",
+                            category: "AI",
+                            excerpt: "Created a personal AI that lives on my laptop. It sees, it remembers, it helps.",
+                            content: "Created a personal AI that lives on my laptop. It sees, it remembers, it helps."
+                        },
+                        {
+                            id: 3,
+                            title: "The 2030 Deadline",
+                            date: "2026-01-20",
+                            category: "Goals",
+                            excerpt: "Setting impossible goals and chasing them. Superhero status or bust.",
+                            content: "Setting impossible goals and chasing them. Superhero status or bust."
+                        },
+                        {
+                            id: 4,
+                            title: "Ghost Town Goes Live",
+                            date: "2025-12-15",
+                            category: "Launch",
+                            excerpt: "Finally launched my personal site. CRT effects, ghost pets, and all.",
+                            content: "Finally launched my personal site. CRT effects, ghost pets, and all."
+                        }
+                    ]
+                });
+            }
+        });
+    </script>
+</body>
+</html>
