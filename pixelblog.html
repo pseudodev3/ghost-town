@@ -2,53 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1024">
-    <title>Pixel Blog | Ghost Town</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none'%3E%3Cpath d='M16 2C9 2 4 8 4 15V28L10 24L16 28L22 24L28 28V15C28 8 23 2 16 2Z' fill='%23050505' opacity='0.9'/%3E%3Cpath d='M16 2C9 2 4 8 4 15V28L10 24L16 28L22 24L28 28V15C28 8 23 2 16 2Z' stroke='%23a0c4ff' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M10 13L14 15L10 17V13Z' fill='%23a0c4ff'/%3E%3Cpath d='M22 13L18 15L22 17V13Z' fill='%23a0c4ff'/%3E%3C/svg%3E">
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Blog</title>
     <style>
-        body {
-            background: #050505;
-            min-height: 100vh;
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Courier New', Courier, monospace;
+            min-height: 100vh;
+        }
+        .pixelblog-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
             padding: 20px;
         }
-        .pixelblog-container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
         .pixelblog-header {
-            text-align: center;
-            padding: 40px 0;
-            border-bottom: 1px solid rgba(160, 196, 255, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #ff00ff;
             margin-bottom: 30px;
         }
         .pixelblog-header h1 {
-            color: #a0c4ff;
-            font-family: 'Courier New', monospace;
-            font-size: 2.5rem;
-            margin: 0;
+            color: #ff00ff;
+            font-size: 1.5rem;
             text-transform: uppercase;
-            letter-spacing: 8px;
+            letter-spacing: 4px;
+            text-shadow: 2px 2px #00ffff;
         }
-        .pixelblog-header p {
-            color: #666;
-            font-family: 'Courier New', monospace;
-            margin-top: 10px;
-        }
-        .back-link {
-            display: inline-block;
-            color: #a0c4ff;
+        .back-btn {
+            color: #00ffff;
             text-decoration: none;
-            font-family: 'Courier New', monospace;
-            margin-bottom: 20px;
-            padding: 10px 20px;
-            border: 1px solid rgba(160, 196, 255, 0.3);
-            transition: all 0.3s;
+            font-size: 0.8rem;
+            border: 2px solid #00ffff;
+            padding: 8px 16px;
+            transition: all 0.2s;
         }
-        .back-link:hover {
-            background: rgba(160, 196, 255, 0.1);
-            border-color: #a0c4ff;
+        .back-btn:hover {
+            background: #00ffff;
+            color: #000;
         }
         #full-pixel-blog {
             min-height: 600px;
@@ -56,14 +54,11 @@
     </style>
 </head>
 <body>
-    <div class="pixelblog-container">
-        <a href="index.html" class="back-link">← Back to Ghost Town</a>
-        
+    <div class="pixelblog-wrapper">
         <div class="pixelblog-header">
-            <h1>Pixel_Blog</h1>
-            <p>Thoughts, projects, and digital artifacts</p>
+            <h1>PIXEL_BLOG</h1>
+            <a href="index.html" class="back-btn">← BACK</a>
         </div>
-        
         <div id="full-pixel-blog"></div>
     </div>
 
@@ -76,6 +71,7 @@
                     adminPassword: 'ghost-town-1337',
                     storageKey: 'ghost_town_blog',
                     enableAdmin: true,
+                    fullPage: true,
                     posts: [
                         {
                             id: 1,
