@@ -57,20 +57,17 @@
             pointer-events: none;
             z-index: 9999;
         }
-        .pixelblog-wrapper {
+.pixelblog-content {
             max-width: 800px;
             margin: 0 auto;
-            padding: 0;
-            position: relative;
-            z-index: 1;
-            background: transparent;
+            padding: 20px;
         }
-        .pixelblog-header {
+.pixelblog-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.7);
+            background: transparent;
         }
         .pixelblog-header h1 {
             color: #ff00ff;
@@ -104,11 +101,11 @@
     </style>
 </head>
 <body>
-    <div class="pixelblog-wrapper">
-        <div class="pixelblog-header">
-            <h1>PIXEL BLOG</h1>
-            <a href="index.html" class="back-btn">← BACK</a>
-        </div>
+    <div class="pixelblog-header">
+        <h1>PIXEL BLOG</h1>
+        <a href="index.html" class="back-btn">← BACK</a>
+    </div>
+    <div class="pixelblog-content">
         <div id="full-pixel-blog"></div>
     </div>
 
