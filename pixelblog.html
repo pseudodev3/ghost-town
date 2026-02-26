@@ -9,32 +9,78 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            image-rendering: pixelated;
         }
         body {
             background: #000;
             color: #fff;
             font-family: 'Courier New', Courier, monospace;
             min-height: 100vh;
+            position: relative;
+        }
+        /* Tree background with overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
+                url('src/assets/tree.webp');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            z-index: -2;
+        }
+        /* CRT scanline effect */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%,
+                rgba(0, 0, 0, 0.25) 50%
+            ),
+            linear-gradient(
+                90deg,
+                rgba(255, 0, 0, 0.06),
+                rgba(0, 255, 0, 0.02),
+                rgba(0, 0, 255, 0.06)
+            );
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            z-index: 9999;
         }
         .pixelblog-wrapper {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
+            position: relative;
+            z-index: 1;
         }
         .pixelblog-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 20px 0;
-            border-bottom: 2px solid #ff00ff;
+            border-bottom: 4px solid #ff00ff;
             margin-bottom: 30px;
+            box-shadow: 0 4px 0 rgba(255, 0, 255, 0.3);
         }
         .pixelblog-header h1 {
             color: #ff00ff;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             text-transform: uppercase;
-            letter-spacing: 4px;
-            text-shadow: 2px 2px #00ffff;
+            letter-spacing: 6px;
+            text-shadow: 
+                3px 3px 0 #00ffff,
+                -1px -1px 0 #000;
+            font-weight: bold;
         }
         .back-btn {
             color: #00ffff;
@@ -43,10 +89,14 @@
             border: 2px solid #00ffff;
             padding: 8px 16px;
             transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 2px 2px 0 rgba(0, 255, 255, 0.3);
         }
         .back-btn:hover {
             background: #00ffff;
             color: #000;
+            box-shadow: 4px 4px 0 rgba(0, 255, 255, 0.5);
         }
         #full-pixel-blog {
             min-height: 600px;
@@ -56,7 +106,7 @@
 <body>
     <div class="pixelblog-wrapper">
         <div class="pixelblog-header">
-            <h1>PIXEL_BLOG</h1>
+            <h1>PIXEL BLOG</h1>
             <a href="index.html" class="back-btn">← BACK</a>
         </div>
         <div id="full-pixel-blog"></div>
