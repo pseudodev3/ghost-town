@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1024">
+    <title>Pixel Blog | Ghost Town</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none'%3E%3Cpath d='M16 2C9 2 4 8 4 15V28L10 24L16 28L22 24L28 28V15C28 8 23 2 16 2Z' fill='%23050505' opacity='0.9'/%3E%3Cpath d='M16 2C9 2 4 8 4 15V28L10 24L16 28L22 24L28 28V15C28 8 23 2 16 2Z' stroke='%23a0c4ff' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M10 13L14 15L10 17V13Z' fill='%23a0c4ff'/%3E%3Cpath d='M22 13L18 15L22 17V13Z' fill='%23a0c4ff'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: #050505;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .pixelblog-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .pixelblog-header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 1px solid rgba(160, 196, 255, 0.2);
+            margin-bottom: 30px;
+        }
+        .pixelblog-header h1 {
+            color: #a0c4ff;
+            font-family: 'Courier New', monospace;
+            font-size: 2.5rem;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+        }
+        .pixelblog-header p {
+            color: #666;
+            font-family: 'Courier New', monospace;
+            margin-top: 10px;
+        }
+        .back-link {
+            display: inline-block;
+            color: #a0c4ff;
+            text-decoration: none;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            border: 1px solid rgba(160, 196, 255, 0.3);
+            transition: all 0.3s;
+        }
+        .back-link:hover {
+            background: rgba(160, 196, 255, 0.1);
+            border-color: #a0c4ff;
+        }
+        #full-pixel-blog {
+            min-height: 600px;
+        }
+    </style>
+</head>
+<body>
+    <div class="pixelblog-container">
+        <a href="index.html" class="back-link">← Back to Ghost Town</a>
+        
+        <div class="pixelblog-header">
+            <h1>Pixel_Blog</h1>
+            <p>Thoughts, projects, and digital artifacts</p>
+        </div>
+        
+        <div id="full-pixel-blog"></div>
+    </div>
+
+    <script src="pixel-blog.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof PixelBlog !== 'undefined') {
+                PixelBlog.mount({
+                    container: '#full-pixel-blog',
+                    adminPassword: 'ghost-town-1337',
+                    storageKey: 'ghost_town_blog',
+                    enableAdmin: true,
+                    posts: [
+                        {
+                            id: 1,
+                            title: "La Vague Streetwear",
+                            date: "2026-02-19",
+                            category: "Project",
+                            excerpt: "Finished building the digital storefront for La Vague. Deep dives into texture, minimalism, and flow.",
+                            content: "Finished building the digital storefront for La Vague. Deep dives into texture, minimalism, and flow. The project involved creating a unique e-commerce experience that captures the essence of streetwear culture while maintaining a clean, minimalist aesthetic. Every detail was crafted to reflect the brand's identity."
+                        },
+                        {
+                            id: 2,
+                            title: "Building GHOST",
+                            date: "2026-02-05",
+                            category: "AI",
+                            excerpt: "Created a personal AI that lives on my laptop. It sees, it remembers, it helps.",
+                            content: "Created a personal AI that lives on my laptop. It sees, it remembers, it helps. This has been a fascinating journey into local LLMs and computer vision. The ghost watches, learns, and assists in ways I never imagined possible. It's like having a digital companion that actually understands context."
+                        },
+                        {
+                            id: 3,
+                            title: "The 2030 Deadline",
+                            date: "2026-01-20",
+                            category: "Goals",
+                            excerpt: "Setting impossible goals and chasing them. Superhero status or bust.",
+                            content: "Setting impossible goals and chasing them. Superhero status or bust. By 2030, I aim to reach a level of mastery in my craft that rivals the heroes I look up to. Every day is a step toward that impossible goal. The journey is chaotic, but the direction is clear."
+                        },
+                        {
+                            id: 4,
+                            title: "Ghost Town Goes Live",
+                            date: "2025-12-15",
+                            category: "Launch",
+                            excerpt: "Finally launched my personal site. CRT effects, ghost pets, and all.",
+                            content: "Finally launched my personal site. CRT effects, ghost pets, and all. This has been a labor of love - combining retro aesthetics with modern web tech. The ghost town is now open for visitors. The CRT overlay, the flickering lights, the ambient music - everything came together to create this digital haunt."
+                        }
+                    ]
+                });
+            }
+        });
+    </script>
+</body>
+</html>

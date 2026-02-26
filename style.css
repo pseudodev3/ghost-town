@@ -780,6 +780,13 @@ body.eclipse-active .ash-canvas {
    ========================================== */
 .blog-content {
     padding: 0;
+    max-height: 320px;
+    overflow-y: auto;
+}
+
+#pixel-blog-container {
+    max-height: 320px;
+    overflow: hidden;
 }
 
 .blog-list {

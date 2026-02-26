@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none'%3E%3Cpath d='M16 2C9 2 4 8 4 15V28L10 24L16 28L22 24L28 28V15C28 8 23 2 16 2Z' fill='%23050505' opacity='0.9'/%3E%3Cpath d='M16 2C9 2 4 8 4 15V28L10 24L16 28L22 24L28 28V15C28 8 23 2 16 2Z' stroke='%23a0c4ff' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M10 13L14 15L10 17V13Z' fill='%23a0c4ff'/%3E%3Cpath d='M22 13L18 15L22 17V13Z' fill='%23a0c4ff'/%3E%3C/svg%3E">
+    <style>
+        body { 
+            margin: 0; padding: 0; overflow: hidden; background: transparent;
+            font-family: 'Verdana', sans-serif; 
+        }
+        
+        .ticker-wrap {
+            width: 100%; height: 100%; overflow: hidden; white-space: nowrap;
+            mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+            display: flex; align-items: center;
+        }
+
+        .ticker { 
+            display: flex; 
+            align-items: center;
+            width: max-content; 
+            animation: marquee 15s linear infinite; 
+            will-change: transform; 
+        }
+        
+        .label {
+            font-size: 12px; 
+            font-weight: 450; /* Reduced from 800 */
+            color: #6c9bd1; 
+            margin-right: 15px; 
+            white-space: nowrap;
+        }
+        
+        .item {
+            font-size: 12px; 
+            font-weight: 430; /* Reduced from 700 */
+            color: #ccc; text-decoration: none; text-transform: uppercase;
+            letter-spacing: 1px; transition: 0.3s;
+            margin: 0 15px;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .item:hover { color: #a0c4ff; text-shadow: 0 0 10px rgba(160, 196, 255, 0.6); }
+
+        .separator { color: #555; margin-left: 10px; font-weight: 400; } 
+        
+        @keyframes marquee { 
+            0% { transform: translateX(0); } 
+            100% { transform: translateX(-50%); } 
+        }
+        
+        .ticker-wrap:hover .ticker { animation-play-state: paused; }
+    </style>
+</head>
+<body>
+    <div class="ticker-wrap">
+        <div class="ticker">
+            
+            <span class="label">CHECK OUT MY PROJECTS:</span>
+            <a href="#" class="item" target="_blank">Sentry-AI <span class="separator">+</span></a>
+            <a href="#" class="item" target="_blank">Wormhole-P2P <span class="separator">+</span></a>
+            <a href="#" class="item" target="_blank">Ghost-Shell <span class="separator">+</span></a>
+            <a href="#" class="item" target="_blank">Neural-Hunt <span class="separator">+</span></a>
+            <a href="#" class="item" target="_blank" style="margin-right: 60px;">Lazor-Kit <span class="separator">+</span></a>
+            
+            <span class="label">CHECK OUT MY PROJECTS:</span>
+            <a href="#" class="item" target="_blank">Sentry-AI <span class="separator">+</span></a>
+            <a href="#" class="item" target="_blank">Wormhole-P2P <span class="separator">+</span></a>
+            <a href="#" class="item" target="_blank">Ghost-Shell <span class="separator">+</span></a>
+            <a href="#" class="item" target="_blank">Neural-Hunt <span class="separator">+</span></a>
+            <a href="#" class="item" target="_blank" style="margin-right: 60px;">Lazor-Kit <span class="separator">+</span></a>
+
+        </div>
+    </div>
+</body>
+</html>
