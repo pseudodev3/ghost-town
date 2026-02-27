@@ -614,92 +614,79 @@ updateSystemMonitor();
 
 
 // ==========================================
-// 17. WEB AUDIO AMBIENT - Ghost Town Atmosphere
+// 17. BACKGROUND MUSIC with FADE IN/OUT
 // ==========================================
-(function initWebAudioAmbient() {
-    let audioContext = null;
-    let isPlaying = false;
+(function initBackgroundMusic() {
+    const audio = document.getElementById('bg-music');
+    if (!audio) return;
     
-    // Create ambient drone sound using Web Audio API
-    function createAmbientSound() {
-        if (!audioContext) {
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        
-        // Create oscillator for low drone
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-        const filter = audioContext.createBiquadFilter();
-        
-        // Low frequency drone (ghostly hum)
-        oscillator.frequency.value = 60; // Low Hz
-        oscillator.type = 'sine';
-        
-        // Low pass filter for muffled sound
-        filter.type = 'lowpass';
-        filter.frequency.value = 200;
-        
-        // Very low volume
-        gainNode.gain.value = 0.03;
-        
-        // Connect nodes
-        oscillator.connect(filter);
-        filter.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-        
-        // Start
-        oscillator.start();
-        
-        // Slow modulation for eerie effect
-        const lfo = audioContext.createOscillator();
-        const lfoGain = audioContext.createGain();
-        lfo.frequency.value = 0.1; // Slow modulation
-        lfoGain.gain.value = 20;
-        lfo.connect(lfoGain);
-        lfoGain.connect(oscillator.frequency);
-        lfo.start();
-        
-        return { oscillator, gainNode, lfo };
+    // Set volume to 0.2 (20%)
+    const targetVolume = 0.2;
+    audio.volume = 0;
+    
+    let isPlaying = false;
+    let fadeInterval = null;
+    
+    function fadeIn() {
+        clearInterval(fadeInterval);
+        let currentVol = parseFloat(audio.volume);
+        fadeInterval = setInterval(() => {
+            if (currentVol < targetVolume) {
+                currentVol += 0.01;
+                audio.volume = Math.min(currentVol, targetVolume);
+            } else {
+                clearInterval(fadeInterval);
+            }
+        }, 100);
     }
     
-    let ambientNodes = null;
-    
-    function toggleAmbient() {
-        if (!audioContext) {
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        
-        if (audioContext.state === 'suspended') {
-            audioContext.resume();
-        }
-        
-        if (isPlaying) {
-            // Stop
-            if (ambientNodes) {
-                ambientNodes.oscillator.stop();
-                ambientNodes.lfo.stop();
-                ambientNodes = null;
+    function fadeOut() {
+        clearInterval(fadeInterval);
+        let currentVol = parseFloat(audio.volume);
+        fadeInterval = setInterval(() => {
+            if (currentVol > 0) {
+                currentVol -= 0.01;
+                audio.volume = Math.max(currentVol, 0);
+            } else {
+                clearInterval(fadeInterval);
+                audio.pause();
             }
+        }, 100);
+    }
+    
+    function toggleMusic() {
+        if (isPlaying) {
+            fadeOut();
             isPlaying = false;
         } else {
-            // Start
-            ambientNodes = createAmbientSound();
+            audio.play().catch(() => {});
+            fadeIn();
             isPlaying = true;
+        }
+        
+        // Show notification
+        const notif = document.getElementById('sound-notif');
+        if (notif) {
+            notif.textContent = isPlaying ? 'SOUND: ON' : 'SOUND: OFF';
+            notif.classList.add('show');
+            setTimeout(() => notif.classList.remove('show'), 2000);
         }
     }
     
-    // Add ambient toggle to power socket
+    // Attach to power socket click
     const powerSocket = document.getElementById('power-socket');
     if (powerSocket) {
-        powerSocket.addEventListener('click', () => {
-            toggleAmbient();
-            // Visual feedback
-            const notif = document.getElementById('sound-notif');
-            if (notif) {
-                notif.textContent = isPlaying ? 'AMBIENT: ON' : 'AMBIENT: OFF';
-                notif.classList.add('show');
-                setTimeout(() => notif.classList.remove('show'), 2000);
-            }
-        });
+        powerSocket.addEventListener('click', toggleMusic);
     }
+    
+    // Auto-start on first user interaction (browser policy)
+    let started = false;
+    document.addEventListener('click', () => {
+        if (!started) {
+            started = true;
+            audio.play().catch(() => {});
+            fadeIn();
+            isPlaying = true;
+        }
+    }, { once: true });
 })();
