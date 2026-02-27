@@ -111,7 +111,7 @@ function initAshCanvas() {
     const ctx = canvas.getContext('2d');
 
     let width, height;
-    const count = 800;
+    const count = 300;
     const pool = new Float32Array(count * 3);
 
     function resize() {
@@ -132,7 +132,16 @@ function initAshCanvas() {
     window.addEventListener('resize', resize);
     resize();
 
+    let isVisible = true;
+    document.addEventListener('visibilitychange', () => {
+        isVisible = !document.hidden;
+    });
+
     function animate() {
+        if (!isVisible) {
+            requestAnimationFrame(animate);
+            return;
+        }
         ctx.clearRect(0, 0, width, height);
         for (let i = 0; i < count; i++) {
             const idx = i * 3;
