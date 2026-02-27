@@ -56,6 +56,6 @@ const server = http.createServer((req, res) => {
     }
 });
 
-server.listen(3001, () => {
-    console.log('Stats server running on http://localhost:3001');
+server.listen(3002, () => {
+    console.log('Stats server running on http://localhost:3002');
 });
