@@ -10,26 +10,33 @@
             padding: 0;
             box-sizing: border-box;
         }
+        html, body {
+            min-height: 100%;
+        }
         body {
             background: transparent;
             color: #fff;
             font-family: 'Courier New', Courier, monospace;
-            min-height: 100vh;
             position: relative;
             image-rendering: pixelated;
+            margin: 0;
         }
-        /* Tree background - NO dark overlay */
+        /* Tree background - NO dark overlay, covers full page */
+        html {
+            height: 100%;
+        }
         body::before {
             content: '';
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
+            min-height: 100%;
             background: url('/assets/tree.webp');
             background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background-position: center center;
+            background-repeat: no-repeat;
             image-rendering: pixelated;
             z-index: -2;
         }
@@ -65,7 +72,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px;
-            background: transparent;
+            background: transparent !important;
         }
         .pixelblog-header h1 {
             color: #ff00ff;
