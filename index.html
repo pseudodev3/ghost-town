@@ -6,6 +6,16 @@
     <title>ghost town</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none'%3E%3Cpath d='M16 2C9 2 4 8 4 15V28L10 24L16 28L22 24L28 28V15C28 8 23 2 16 2Z' fill='%23050505' opacity='0.9'/%3E%3Cpath d='M16 2C9 2 4 8 4 15V28L10 24L16 28L22 24L28 28V15C28 8 23 2 16 2Z' stroke='%23a0c4ff' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M10 13L14 15L10 17V13Z' fill='%23a0c4ff'/%3E%3Cpath d='M22 13L18 15L22 17V13Z' fill='%23a0c4ff'/%3E%3C/svg%3E">
     <link rel="stylesheet" href="style.css">
+    
+    <!-- Preload critical fonts -->
+    <link rel="preload" href="https://fonts.gstatic.com/s/pressstart2p/v15/e3t4euO8T-267oIAQAu6jDQyK3nVivM.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <!-- Register Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(console.error);
+        }
+    </script>
 </head>
 <body>
 
@@ -63,7 +73,7 @@
         </div>
         <div class="content" style="padding-top: 25px; padding-bottom: 25px;">
             <div class="profile-flex">
-                <img src="pfp.gif" class="avatar-img" alt="Ghost">
+                <img src="pfp.gif" class="avatar-img" alt="Ghost" loading="eager" decoding="async">
                 <div class="text-group">
                     <h2>Ghost</h2>
                     <span>Full Stack <span class="role-accent">Engineer</span></span>
@@ -280,7 +290,8 @@
         © 2026 GHOST TOWN. ALL RIGHTS RESERVED.
     </div>
 
-    <audio id="bg-music" loop><source src="music.mp3" type="audio/mpeg"></audio>
+    <!-- Spotify Web API for background music -->
+    <div id="spotify-player" style="display: none;"></div>
 
     <script src="/pixel-blog.js"></script>
     <script>

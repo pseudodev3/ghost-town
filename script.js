@@ -611,3 +611,70 @@ initEclipseToggle();
 setInterval(rotateStatus, 8000);
 setInterval(updateSystemMonitor, 2000);
 updateSystemMonitor();
+
+// ==========================================
+// 17. SPOTIFY WEB API - Ambient Music
+// ==========================================
+(function initSpotifyAmbient() {
+    // List of ghost town themed Spotify URIs (ambient, dark, atmospheric)
+    const ambientTracks = [
+        'spotify:track:7J1ux0r0XksXtXD7MXnXMZ', // Example ambient track
+        'spotify:track:3jyJHivkZ9k5xE5n9y7r9r', // Dark ambient
+        'spotify:track:4iV5W9uYEdYUVa79Axb7Rh', // Atmospheric
+    ];
+    
+    let currentTrackIndex = 0;
+    let player = null;
+    
+    // Check for existing Spotify player
+    const spotifyContainer = document.getElementById('spotify-player');
+    if (!spotifyContainer) return;
+    
+    // Embed Spotify player with ghost town themed playlist
+    // Using a dark ambient/ghostly themed playlist
+    const playlistUri = 'https://open.spotify.com/embed/playlist/37i9dQZF1DX4wta20PHgwo?utm_source=generator';
+    
+    // Create iframe only on user interaction to comply with autoplay policies
+    let playerLoaded = false;
+    
+    function loadPlayer() {
+        if (playerLoaded) return;
+        playerLoaded = true;
+        
+        const iframe = document.createElement('iframe');
+        iframe.src = playlistUri;
+        iframe.width = '100%';
+        iframe.height = '80';
+        iframe.frameBorder = '0';
+        iframe.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
+        iframe.loading = 'lazy';
+        
+        spotifyContainer.appendChild(iframe);
+        spotifyContainer.style.display = 'block';
+        spotifyContainer.style.position = 'fixed';
+        spotifyContainer.style.bottom = '10px';
+        spotifyContainer.style.right = '10px';
+        spotifyContainer.style.width = '300px';
+        spotifyContainer.style.height = '80px';
+        spotifyContainer.style.zIndex = '1000';
+        spotifyContainer.style.opacity = '0.8';
+        spotifyContainer.style.transition = 'opacity 0.3s';
+        
+        // Hover effect
+        spotifyContainer.addEventListener('mouseenter', () => {
+            spotifyContainer.style.opacity = '1';
+        });
+        spotifyContainer.addEventListener('mouseleave', () => {
+            spotifyContainer.style.opacity = '0.8';
+        });
+    }
+    
+    // Load player on first click anywhere (browser autoplay policy)
+    document.addEventListener('click', loadPlayer, { once: true });
+    
+    // Also try to load on power socket click (thematic)
+    const powerSocket = document.getElementById('power-socket');
+    if (powerSocket) {
+        powerSocket.addEventListener('click', loadPlayer, { once: true });
+    }
+})();
