@@ -612,69 +612,94 @@ setInterval(rotateStatus, 8000);
 setInterval(updateSystemMonitor, 2000);
 updateSystemMonitor();
 
+
 // ==========================================
-// 17. SPOTIFY WEB API - Ambient Music
+// 17. WEB AUDIO AMBIENT - Ghost Town Atmosphere
 // ==========================================
-(function initSpotifyAmbient() {
-    // List of ghost town themed Spotify URIs (ambient, dark, atmospheric)
-    const ambientTracks = [
-        'spotify:track:7J1ux0r0XksXtXD7MXnXMZ', // Example ambient track
-        'spotify:track:3jyJHivkZ9k5xE5n9y7r9r', // Dark ambient
-        'spotify:track:4iV5W9uYEdYUVa79Axb7Rh', // Atmospheric
-    ];
+(function initWebAudioAmbient() {
+    let audioContext = null;
+    let isPlaying = false;
     
-    let currentTrackIndex = 0;
-    let player = null;
-    
-    // Check for existing Spotify player
-    const spotifyContainer = document.getElementById('spotify-player');
-    if (!spotifyContainer) return;
-    
-    // Embed Spotify player with ghost town themed playlist
-    // Using a dark ambient/ghostly themed playlist
-    const playlistUri = 'https://open.spotify.com/embed/playlist/37i9dQZF1DX4wta20PHgwo?utm_source=generator';
-    
-    // Create iframe only on user interaction to comply with autoplay policies
-    let playerLoaded = false;
-    
-    function loadPlayer() {
-        if (playerLoaded) return;
-        playerLoaded = true;
+    // Create ambient drone sound using Web Audio API
+    function createAmbientSound() {
+        if (!audioContext) {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        }
         
-        const iframe = document.createElement('iframe');
-        iframe.src = playlistUri;
-        iframe.width = '100%';
-        iframe.height = '80';
-        iframe.frameBorder = '0';
-        iframe.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
-        iframe.loading = 'lazy';
+        // Create oscillator for low drone
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        const filter = audioContext.createBiquadFilter();
         
-        spotifyContainer.appendChild(iframe);
-        spotifyContainer.style.display = 'block';
-        spotifyContainer.style.position = 'fixed';
-        spotifyContainer.style.bottom = '10px';
-        spotifyContainer.style.right = '10px';
-        spotifyContainer.style.width = '300px';
-        spotifyContainer.style.height = '80px';
-        spotifyContainer.style.zIndex = '1000';
-        spotifyContainer.style.opacity = '0.8';
-        spotifyContainer.style.transition = 'opacity 0.3s';
+        // Low frequency drone (ghostly hum)
+        oscillator.frequency.value = 60; // Low Hz
+        oscillator.type = 'sine';
         
-        // Hover effect
-        spotifyContainer.addEventListener('mouseenter', () => {
-            spotifyContainer.style.opacity = '1';
-        });
-        spotifyContainer.addEventListener('mouseleave', () => {
-            spotifyContainer.style.opacity = '0.8';
-        });
+        // Low pass filter for muffled sound
+        filter.type = 'lowpass';
+        filter.frequency.value = 200;
+        
+        // Very low volume
+        gainNode.gain.value = 0.03;
+        
+        // Connect nodes
+        oscillator.connect(filter);
+        filter.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        // Start
+        oscillator.start();
+        
+        // Slow modulation for eerie effect
+        const lfo = audioContext.createOscillator();
+        const lfoGain = audioContext.createGain();
+        lfo.frequency.value = 0.1; // Slow modulation
+        lfoGain.gain.value = 20;
+        lfo.connect(lfoGain);
+        lfoGain.connect(oscillator.frequency);
+        lfo.start();
+        
+        return { oscillator, gainNode, lfo };
     }
     
-    // Load player on first click anywhere (browser autoplay policy)
-    document.addEventListener('click', loadPlayer, { once: true });
+    let ambientNodes = null;
     
-    // Also try to load on power socket click (thematic)
+    function toggleAmbient() {
+        if (!audioContext) {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        
+        if (audioContext.state === 'suspended') {
+            audioContext.resume();
+        }
+        
+        if (isPlaying) {
+            // Stop
+            if (ambientNodes) {
+                ambientNodes.oscillator.stop();
+                ambientNodes.lfo.stop();
+                ambientNodes = null;
+            }
+            isPlaying = false;
+        } else {
+            // Start
+            ambientNodes = createAmbientSound();
+            isPlaying = true;
+        }
+    }
+    
+    // Add ambient toggle to power socket
     const powerSocket = document.getElementById('power-socket');
     if (powerSocket) {
-        powerSocket.addEventListener('click', loadPlayer, { once: true });
+        powerSocket.addEventListener('click', () => {
+            toggleAmbient();
+            // Visual feedback
+            const notif = document.getElementById('sound-notif');
+            if (notif) {
+                notif.textContent = isPlaying ? 'AMBIENT: ON' : 'AMBIENT: OFF';
+                notif.classList.add('show');
+                setTimeout(() => notif.classList.remove('show'), 2000);
+            }
+        });
     }
 })();
