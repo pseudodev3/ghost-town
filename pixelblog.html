@@ -104,6 +104,38 @@
         #full-pixel-blog {
             min-height: 600px;
         }
+        
+        /* Make blog window transparent to show tree background */
+        #full-pixel-blog > * {
+            background: transparent !important;
+        }
+        
+        /* Target shadow DOM host */
+        #full-pixel-blog > div {
+            background: transparent !important;
+        }
+        
+        /* Make pixel borders have transparent background */
+        :host(.pixel-border) {
+            background: transparent !important;
+        }
+        
+        /* Override any solid backgrounds in the blog content */
+        #full-pixel-blog [class*="border"] {
+            background: rgba(0, 0, 0, 0.3) !important;
+            backdrop-filter: blur(2px);
+        }
+    </style>
+    <style id="blog-transparent-styles">
+        /* Deep override for shadow DOM elements */
+        #pixel-blog-root {
+            background: transparent !important;
+        }
+        .pixel-border {
+            background: rgba(0, 0, 0, 0.4) !important;
+            backdrop-filter: blur(4px);
+            border: 2px solid rgba(255, 0, 255, 0.5) !important;
+        }
     </style>
 </head>
 <body>
@@ -118,6 +150,33 @@
     <script src="/pixel-blog.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Function to inject transparent styles into shadow DOM
+            function injectTransparentStyles() {
+                const blogContainer = document.querySelector('#full-pixel-blog');
+                if (blogContainer && blogContainer.shadowRoot) {
+                    const styleEl = document.createElement('style');
+                    styleEl.textContent = `
+                        :host { background: transparent !important; }
+                        #pixel-blog-root { 
+                            background: transparent !important;
+                            min-height: 100%;
+                        }
+                        .pixel-border, [class*="border"] {
+                            background: rgba(0, 0, 0, 0.5) !important;
+                            backdrop-filter: blur(4px);
+                            border: 2px solid rgba(255, 0, 255, 0.4) !important;
+                            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3) !important;
+                        }
+                        div[style*="background"] {
+                            background-color: transparent !important;
+                        }
+                    `;
+                    blogContainer.shadowRoot.appendChild(styleEl);
+                    return true;
+                }
+                return false;
+            }
+            
             if (typeof PixelBlog !== 'undefined') {
                 PixelBlog.mount({
                     container: '#full-pixel-blog',
@@ -160,6 +219,28 @@
                         }
                     ]
                 });
+                
+                // Inject transparent styles into shadow DOM after mount
+                setTimeout(function tryInject() {
+                    if (!injectTransparentStyles()) {
+                        // Retry if shadow DOM not ready yet
+                        setTimeout(tryInject, 100);
+                    }
+                }, 100);
+                
+                // Also set up observer for dynamic content
+                const observer = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                        if (mutation.addedNodes.length > 0) {
+                            injectTransparentStyles();
+                        }
+                    });
+                });
+                
+                const blogContainer = document.querySelector('#full-pixel-blog');
+                if (blogContainer) {
+                    observer.observe(blogContainer, { childList: true, subtree: true });
+                }
             }
         });
     </script>
