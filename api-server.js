@@ -18,23 +18,41 @@ app.use(express.json());
 
 // Initialize SQLite database
 const dbPath = path.join(__dirname, 'data', 'blog.db');
-fs.mkdirSync(path.dirname(dbPath), { recursive: true });
 
-const db = new Database(dbPath);
+try {
+  fs.mkdirSync(path.dirname(dbPath), { recursive: true });
+  console.log('[API] Database directory created:', path.dirname(dbPath));
+} catch (err) {
+  console.error('[API] Failed to create data directory:', err.message);
+}
+
+let db;
+try {
+  db = new Database(dbPath);
+  console.log('[API] Database connected:', dbPath);
+} catch (err) {
+  console.error('[API] Failed to open database:', err.message);
+  process.exit(1);
+}
 
 // Create posts table if not exists
-db.exec(`
-  CREATE TABLE IF NOT EXISTS posts (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT NOT NULL,
-    date TEXT NOT NULL,
-    category TEXT NOT NULL,
-    excerpt TEXT NOT NULL,
-    content TEXT NOT NULL,
-    icon TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-  )
-`);
+try {
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS posts (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT NOT NULL,
+      date TEXT NOT NULL,
+      category TEXT NOT NULL,
+      excerpt TEXT NOT NULL,
+      content TEXT NOT NULL,
+      icon TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+  console.log('[API] Posts table ready');
+} catch (err) {
+  console.error('[API] Failed to create table:', err.message);
+}
 
 // Initialize with default posts if empty
 const count = db.prepare('SELECT COUNT(*) as count FROM posts').get();
@@ -170,7 +188,19 @@ app.delete('/api/posts/:id', requireAuth, (req, res) => {
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  try {
+    // Also check DB is accessible
+    db.prepare('SELECT 1').get();
+    res.json({ status: 'ok', db: 'connected', timestamp: new Date().toISOString() });
+  } catch (err) {
+    res.status(500).json({ status: 'error', db: err.message });
+  }
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error('[API] Error:', err);
+  res.status(500).json({ error: 'Internal server error' });
 });
 
 app.listen(PORT, () => {
