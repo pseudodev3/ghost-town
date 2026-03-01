@@ -11,9 +11,11 @@
             padding: 0;
             box-sizing: border-box;
         }
+        
         html, body {
             min-height: 100%;
         }
+        
         body {
             background: transparent;
             color: #fff;
@@ -21,11 +23,14 @@
             position: relative;
             image-rendering: pixelated;
             margin: 0;
+            overflow-x: hidden;
         }
-        /* Tree background - NO dark overlay, covers full page */
+        
+        /* Tree background - covers full page */
         html {
             height: 100%;
         }
+        
         body::before {
             content: '';
             position: fixed;
@@ -41,6 +46,7 @@
             image-rendering: pixelated;
             z-index: -2;
         }
+        
         /* CRT scanline effect */
         body::after {
             content: '';
@@ -63,28 +69,34 @@
             pointer-events: none;
             z-index: 9999;
         }
-.pixelblog-content {
-            max-width: 800px;
+        
+        /* Main content container */
+        .pixelblog-content {
+            max-width: 900px;
             margin: 0 auto;
             padding: 20px;
         }
-.pixelblog-header {
+        
+        /* Header styling */
+        .pixelblog-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px;
-            background: transparent !important;
+            padding: 20px 20px 30px;
+            background: transparent;
         }
+        
         .pixelblog-header h1 {
             color: #ff00ff;
-            font-size: 1.8rem;
+            font-size: 2rem;
             text-transform: uppercase;
             letter-spacing: 6px;
             text-shadow: 
                 3px 3px 0 #00ffff,
-                -1px -1px 0 #000;
+                6px 6px 0 rgba(0, 0, 0, 0.5);
             font-weight: bold;
         }
+        
         .back-btn {
             color: #00ffff;
             text-decoration: none;
@@ -95,46 +107,83 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             box-shadow: 2px 2px 0 rgba(0, 255, 255, 0.3);
+            background: rgba(0, 0, 0, 0.6);
         }
+        
         .back-btn:hover {
             background: #00ffff;
             color: #000;
             box-shadow: 4px 4px 0 rgba(0, 255, 255, 0.5);
         }
+        
+        /* Blog window container with tree background */
         #full-pixel-blog {
             min-height: 600px;
+            position: relative;
         }
         
-        /* Make blog window transparent to show tree background */
-        #full-pixel-blog > * {
-            background: transparent !important;
-        }
-        
-        /* Target shadow DOM host */
+        /* The blog window itself - uses tree as background */
         #full-pixel-blog > div {
             background: transparent !important;
         }
         
-        /* Make pixel borders have transparent background */
+        /* Shadow DOM overrides for better visibility */
         :host(.pixel-border) {
             background: transparent !important;
         }
         
-        /* Override any solid backgrounds in the blog content */
-        #full-pixel-blog [class*="border"] {
-            background: rgba(0, 0, 0, 0.3) !important;
-            backdrop-filter: blur(2px);
-        }
-    </style>
-    <style id="blog-transparent-styles">
-        /* Deep override for shadow DOM elements */
-        #pixel-blog-root {
-            background: transparent !important;
-        }
-        .pixel-border {
-            background: rgba(0, 0, 0, 0.4) !important;
-            backdrop-filter: blur(4px);
+        /* Blog container styles that will be injected into shadow DOM */
+        .pixel-blog-glass {
+            background: rgba(10, 10, 20, 0.85) !important;
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
             border: 2px solid rgba(255, 0, 255, 0.5) !important;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        .pixel-blog-card {
+            background: rgba(20, 20, 35, 0.9) !important;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 2px solid rgba(0, 255, 255, 0.4) !important;
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+            transition: all 0.2s ease;
+        }
+        
+        .pixel-blog-card:hover {
+            background: rgba(30, 30, 50, 0.95) !important;
+            border-color: rgba(255, 0, 255, 0.6) !important;
+            box-shadow: 
+                0 6px 30px rgba(255, 0, 255, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+            transform: translateY(-2px);
+        }
+        
+        /* Text readability improvements */
+        .pixel-blog-text {
+            color: #e0e0e0 !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+        }
+        
+        .pixel-blog-title {
+            color: #ff00ff !important;
+            text-shadow: 
+                2px 2px 0 rgba(0, 255, 255, 0.3),
+                0 0 20px rgba(255, 0, 255, 0.3) !important;
+        }
+        
+        .pixel-blog-category {
+            color: #ffff00 !important;
+            text-shadow: 0 0 10px rgba(255, 255, 0, 0.4) !important;
+        }
+        
+        .pixel-blog-date {
+            color: #00ffff !important;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3) !important;
         }
     </style>
 </head>
@@ -150,25 +199,165 @@
     <script src="/pixel-blog.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Function to inject transparent styles into shadow DOM
-            function injectTransparentStyles() {
+            // Function to inject enhanced styles into shadow DOM
+            function injectEnhancedStyles() {
                 const blogContainer = document.querySelector('#full-pixel-blog');
                 if (blogContainer && blogContainer.shadowRoot) {
+                    // Check if styles already injected
+                    if (blogContainer.shadowRoot.querySelector('#enhanced-styles')) {
+                        return true;
+                    }
+                    
                     const styleEl = document.createElement('style');
+                    styleEl.id = 'enhanced-styles';
                     styleEl.textContent = `
-                        :host { background: transparent !important; }
+                        /* Root container with tree background visible */
+                        :host { 
+                            background: transparent !important;
+                            display: block;
+                        }
+                        
                         #pixel-blog-root { 
                             background: transparent !important;
                             min-height: 100%;
+                            padding: 0;
                         }
+                        
+                        /* Main blog container - Glassmorphism effect */
                         .pixel-border, [class*="border"] {
-                            background: rgba(0, 0, 0, 0.5) !important;
-                            backdrop-filter: blur(4px);
-                            border: 2px solid rgba(255, 0, 255, 0.4) !important;
-                            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3) !important;
+                            background: rgba(10, 10, 25, 0.82) !important;
+                            backdrop-filter: blur(16px) saturate(180%) !important;
+                            -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+                            border: 2px solid rgba(255, 0, 255, 0.5) !important;
+                            box-shadow: 
+                                0 8px 32px rgba(0, 0, 0, 0.5),
+                                inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+                            border-radius: 4px !important;
                         }
-                        div[style*="background"] {
-                            background-color: transparent !important;
+                        
+                        /* Blog cards - More opaque for readability */
+                        div[class*="border"] > div,
+                        [style*="border"] {
+                            background: rgba(20, 20, 40, 0.88) !important;
+                            backdrop-filter: blur(12px) !important;
+                            -webkit-backdrop-filter: blur(12px) !important;
+                            border: 2px solid rgba(0, 255, 255, 0.35) !important;
+                            box-shadow: 
+                                0 4px 20px rgba(0, 0, 0, 0.4),
+                                inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+                            transition: all 0.2s ease !important;
+                        }
+                        
+                        /* Card hover effect */
+                        div[class*="border"] > div:hover,
+                        [style*="border"]:hover {
+                            background: rgba(30, 30, 55, 0.93) !important;
+                            border-color: rgba(255, 0, 255, 0.55) !important;
+                            box-shadow: 
+                                0 6px 30px rgba(255, 0, 255, 0.15),
+                                inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+                            transform: translateY(-2px);
+                        }
+                        
+                        /* All text elements - Enhanced readability */
+                        *, *::before, *::after {
+                            color: #e8e8f0 !important;
+                            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9) !important;
+                        }
+                        
+                        /* Category tags - Yellow with glow */
+                        span {
+                            color: #ffff60 !important;
+                            text-shadow: 0 0 8px rgba(255, 255, 0, 0.4) !important;
+                            font-weight: 600 !important;
+                        }
+                        
+                        /* Dates - Cyan with glow */
+                        span + span, span:nth-child(2) {
+                            color: #40ffff !important;
+                            text-shadow: 0 0 8px rgba(0, 255, 255, 0.35) !important;
+                        }
+                        
+                        /* Headings - Magenta with enhanced shadow */
+                        h1, h2, h3, h4, h5, h6 {
+                            color: #ff40ff !important;
+                            text-shadow: 
+                                2px 2px 0 rgba(0, 0, 0, 0.8),
+                                0 0 20px rgba(255, 0, 255, 0.4) !important;
+                            font-weight: bold !important;
+                        }
+                        
+                        /* Paragraph text */
+                        p {
+                            color: #c8c8e0 !important;
+                            line-height: 1.7 !important;
+                        }
+                        
+                        /* Buttons and interactive elements */
+                        button, [role="button"] {
+                            background: rgba(0, 255, 255, 0.15) !important;
+                            border: 2px solid rgba(0, 255, 255, 0.5) !important;
+                            color: #00ffff !important;
+                            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5) !important;
+                            padding: 8px 16px !important;
+                            cursor: pointer !important;
+                            transition: all 0.2s !important;
+                        }
+                        
+                        button:hover, [role="button"]:hover {
+                            background: rgba(0, 255, 255, 0.3) !important;
+                            border-color: rgba(0, 255, 255, 0.8) !important;
+                            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3) !important;
+                        }
+                        
+                        /* Input fields */
+                        input, textarea {
+                            background: rgba(0, 0, 0, 0.6) !important;
+                            border: 2px solid rgba(255, 0, 255, 0.4) !important;
+                            color: #fff !important;
+                            padding: 10px !important;
+                        }
+                        
+                        input:focus, textarea:focus {
+                            border-color: rgba(255, 0, 255, 0.7) !important;
+                            box-shadow: 0 0 15px rgba(255, 0, 255, 0.2) !important;
+                            outline: none !important;
+                        }
+                        
+                        /* Links */
+                        a {
+                            color: #00ffff !important;
+                            text-decoration: none !important;
+                            text-shadow: 0 0 8px rgba(0, 255, 255, 0.3) !important;
+                            transition: all 0.2s !important;
+                        }
+                        
+                        a:hover {
+                            color: #ff00ff !important;
+                            text-shadow: 0 0 12px rgba(255, 0, 255, 0.5) !important;
+                        }
+                        
+                        /* Encrypted/locked indicators */
+                        svg + span, [data-locked="true"] {
+                            color: #ff6060 !important;
+                        }
+                        
+                        /* Scrollbar styling */
+                        ::-webkit-scrollbar {
+                            width: 8px;
+                        }
+                        
+                        ::-webkit-scrollbar-track {
+                            background: rgba(0, 0, 0, 0.3);
+                        }
+                        
+                        ::-webkit-scrollbar-thumb {
+                            background: rgba(255, 0, 255, 0.4);
+                            border-radius: 4px;
+                        }
+                        
+                        ::-webkit-scrollbar-thumb:hover {
+                            background: rgba(255, 0, 255, 0.6);
                         }
                     `;
                     blogContainer.shadowRoot.appendChild(styleEl);
@@ -220,19 +409,19 @@
                     ]
                 });
                 
-                // Inject transparent styles into shadow DOM after mount
+                // Inject enhanced styles into shadow DOM after mount
                 setTimeout(function tryInject() {
-                    if (!injectTransparentStyles()) {
+                    if (!injectEnhancedStyles()) {
                         // Retry if shadow DOM not ready yet
                         setTimeout(tryInject, 100);
                     }
-                }, 100);
+                }, 50);
                 
                 // Also set up observer for dynamic content
                 const observer = new MutationObserver(function(mutations) {
                     mutations.forEach(function(mutation) {
                         if (mutation.addedNodes.length > 0) {
-                            injectTransparentStyles();
+                            injectEnhancedStyles();
                         }
                     });
                 });
@@ -241,6 +430,9 @@
                 if (blogContainer) {
                     observer.observe(blogContainer, { childList: true, subtree: true });
                 }
+                
+                // Periodic re-injection to ensure styles persist
+                setInterval(injectEnhancedStyles, 1000);
             }
         });
     </script>
