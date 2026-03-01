@@ -223,141 +223,205 @@
                             padding: 0;
                         }
                         
-                        /* Main blog container - Glassmorphism effect */
+                        /* Main blog container - Darker for better text contrast */
                         .pixel-border, [class*="border"] {
-                            background: rgba(10, 10, 25, 0.82) !important;
-                            backdrop-filter: blur(16px) saturate(180%) !important;
-                            -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+                            background: rgba(8, 8, 18, 0.92) !important;
+                            backdrop-filter: blur(20px) saturate(200%) !important;
+                            -webkit-backdrop-filter: blur(20px) saturate(200%) !important;
                             border: 2px solid rgba(255, 0, 255, 0.5) !important;
                             box-shadow: 
-                                0 8px 32px rgba(0, 0, 0, 0.5),
-                                inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+                                0 12px 40px rgba(0, 0, 0, 0.6),
+                                inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
                             border-radius: 4px !important;
                         }
                         
-                        /* Blog cards - More opaque for readability */
+                        /* Blog cards - Much more opaque for text readability */
                         div[class*="border"] > div,
                         [style*="border"] {
-                            background: rgba(20, 20, 40, 0.88) !important;
-                            backdrop-filter: blur(12px) !important;
-                            -webkit-backdrop-filter: blur(12px) !important;
-                            border: 2px solid rgba(0, 255, 255, 0.35) !important;
+                            background: rgba(15, 15, 30, 0.95) !important;
+                            backdrop-filter: blur(16px) !important;
+                            -webkit-backdrop-filter: blur(16px) !important;
+                            border: 2px solid rgba(0, 255, 255, 0.4) !important;
                             box-shadow: 
-                                0 4px 20px rgba(0, 0, 0, 0.4),
-                                inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+                                0 6px 24px rgba(0, 0, 0, 0.5),
+                                inset 0 1px 0 rgba(255, 255, 255, 0.03) !important;
                             transition: all 0.2s ease !important;
+                            padding: 1.5rem !important;
                         }
                         
                         /* Card hover effect */
                         div[class*="border"] > div:hover,
                         [style*="border"]:hover {
-                            background: rgba(30, 30, 55, 0.93) !important;
-                            border-color: rgba(255, 0, 255, 0.55) !important;
+                            background: rgba(20, 20, 40, 0.97) !important;
+                            border-color: rgba(255, 0, 255, 0.6) !important;
                             box-shadow: 
-                                0 6px 30px rgba(255, 0, 255, 0.15),
-                                inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+                                0 8px 32px rgba(255, 0, 255, 0.2),
+                                inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
                             transform: translateY(-2px);
                         }
                         
-                        /* All text elements - Enhanced readability */
+                        /* All text elements - CRISP & HIGH CONTRAST */
                         *, *::before, *::after {
-                            color: #e8e8f0 !important;
-                            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9) !important;
+                            color: #ffffff !important;
+                            font-weight: 500 !important;
                         }
                         
-                        /* Category tags - Yellow with glow */
+                        /* Category tags - Bright Yellow */
                         span {
-                            color: #ffff60 !important;
-                            text-shadow: 0 0 8px rgba(255, 255, 0, 0.4) !important;
+                            color: #ffff00 !important;
+                            text-shadow: 
+                                0 0 0 #000,
+                                0 0 10px rgba(255, 255, 0, 0.5),
+                                -1px -1px 0 #000,
+                                1px -1px 0 #000,
+                                -1px 1px 0 #000,
+                                1px 1px 0 #000 !important;
+                            font-weight: 700 !important;
+                            font-size: 0.75rem !important;
+                            letter-spacing: 1px !important;
+                        }
+                        
+                        /* Dates - Bright Cyan */
+                        span + span, span:nth-child(2) {
+                            color: #00ffff !important;
+                            text-shadow: 
+                                0 0 0 #000,
+                                0 0 10px rgba(0, 255, 255, 0.4),
+                                -1px -1px 0 #000,
+                                1px -1px 0 #000,
+                                -1px 1px 0 #000,
+                                1px 1px 0 #000 !important;
                             font-weight: 600 !important;
                         }
                         
-                        /* Dates - Cyan with glow */
-                        span + span, span:nth-child(2) {
-                            color: #40ffff !important;
-                            text-shadow: 0 0 8px rgba(0, 255, 255, 0.35) !important;
-                        }
-                        
-                        /* Headings - Magenta with enhanced shadow */
+                        /* Headings - Bright Magenta with strong shadows */
                         h1, h2, h3, h4, h5, h6 {
-                            color: #ff40ff !important;
+                            color: #ff00ff !important;
                             text-shadow: 
-                                2px 2px 0 rgba(0, 0, 0, 0.8),
-                                0 0 20px rgba(255, 0, 255, 0.4) !important;
-                            font-weight: bold !important;
+                                3px 3px 0 #000,
+                                -1px -1px 0 #000,
+                                1px -1px 0 #000,
+                                -1px 1px 0 #000,
+                                1px 1px 0 #000,
+                                0 0 20px rgba(255, 0, 255, 0.6) !important;
+                            font-weight: 800 !important;
+                            font-size: 1.1rem !important;
+                            margin-bottom: 0.75rem !important;
+                            line-height: 1.4 !important;
                         }
                         
-                        /* Paragraph text */
+                        /* Paragraph text - PURE WHITE for max readability */
                         p {
-                            color: #c8c8e0 !important;
-                            line-height: 1.7 !important;
+                            color: #ffffff !important;
+                            line-height: 1.8 !important;
+                            font-size: 0.9rem !important;
+                            font-weight: 500 !important;
+                            text-shadow: 
+                                0 1px 2px rgba(0, 0, 0, 1),
+                                0 2px 4px rgba(0, 0, 0, 0.8) !important;
+                            margin-bottom: 0 !important;
+                        }
+                        
+                        /* Encrypted/locked text */
+                        div[style*="color: #666"],
+                        div[style*="color:#666"] {
+                            color: #ff8888 !important;
+                            font-weight: 600 !important;
+                            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9) !important;
+                        }
+                        
+                        /* SVG icons */
+                        svg {
+                            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8)) !important;
                         }
                         
                         /* Buttons and interactive elements */
                         button, [role="button"] {
-                            background: rgba(0, 255, 255, 0.15) !important;
-                            border: 2px solid rgba(0, 255, 255, 0.5) !important;
+                            background: rgba(0, 255, 255, 0.2) !important;
+                            border: 2px solid rgba(0, 255, 255, 0.6) !important;
                             color: #00ffff !important;
-                            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5) !important;
-                            padding: 8px 16px !important;
+                            text-shadow: 
+                                0 0 0 #000,
+                                0 0 10px rgba(0, 255, 255, 0.6),
+                                -1px -1px 0 #000,
+                                1px -1px 0 #000,
+                                -1px 1px 0 #000,
+                                1px 1px 0 #000 !important;
+                            font-weight: 700 !important;
+                            padding: 10px 20px !important;
                             cursor: pointer !important;
                             transition: all 0.2s !important;
+                            font-size: 0.85rem !important;
                         }
                         
                         button:hover, [role="button"]:hover {
-                            background: rgba(0, 255, 255, 0.3) !important;
-                            border-color: rgba(0, 255, 255, 0.8) !important;
-                            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3) !important;
+                            background: rgba(0, 255, 255, 0.35) !important;
+                            border-color: rgba(0, 255, 255, 0.9) !important;
+                            box-shadow: 0 0 25px rgba(0, 255, 255, 0.4) !important;
+                            color: #ffffff !important;
                         }
                         
                         /* Input fields */
                         input, textarea {
-                            background: rgba(0, 0, 0, 0.6) !important;
-                            border: 2px solid rgba(255, 0, 255, 0.4) !important;
-                            color: #fff !important;
-                            padding: 10px !important;
+                            background: rgba(0, 0, 0, 0.7) !important;
+                            border: 2px solid rgba(255, 0, 255, 0.5) !important;
+                            color: #ffffff !important;
+                            padding: 12px !important;
+                            font-size: 0.9rem !important;
+                            font-weight: 500 !important;
+                            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9) !important;
                         }
                         
                         input:focus, textarea:focus {
-                            border-color: rgba(255, 0, 255, 0.7) !important;
-                            box-shadow: 0 0 15px rgba(255, 0, 255, 0.2) !important;
+                            border-color: rgba(255, 0, 255, 0.8) !important;
+                            box-shadow: 0 0 20px rgba(255, 0, 255, 0.3) !important;
                             outline: none !important;
+                            background: rgba(0, 0, 0, 0.8) !important;
                         }
                         
                         /* Links */
                         a {
                             color: #00ffff !important;
                             text-decoration: none !important;
-                            text-shadow: 0 0 8px rgba(0, 255, 255, 0.3) !important;
+                            text-shadow: 
+                                0 0 0 #000,
+                                -1px -1px 0 #000,
+                                1px -1px 0 #000,
+                                -1px 1px 0 #000,
+                                1px 1px 0 #000,
+                                0 0 10px rgba(0, 255, 255, 0.4) !important;
+                            font-weight: 600 !important;
                             transition: all 0.2s !important;
                         }
                         
                         a:hover {
                             color: #ff00ff !important;
-                            text-shadow: 0 0 12px rgba(255, 0, 255, 0.5) !important;
-                        }
-                        
-                        /* Encrypted/locked indicators */
-                        svg + span, [data-locked="true"] {
-                            color: #ff6060 !important;
+                            text-shadow: 
+                                0 0 0 #000,
+                                -1px -1px 0 #000,
+                                1px -1px 0 #000,
+                                -1px 1px 0 #000,
+                                1px 1px 0 #000,
+                                0 0 15px rgba(255, 0, 255, 0.6) !important;
                         }
                         
                         /* Scrollbar styling */
                         ::-webkit-scrollbar {
-                            width: 8px;
+                            width: 10px;
                         }
                         
                         ::-webkit-scrollbar-track {
-                            background: rgba(0, 0, 0, 0.3);
+                            background: rgba(0, 0, 0, 0.4);
                         }
                         
                         ::-webkit-scrollbar-thumb {
-                            background: rgba(255, 0, 255, 0.4);
-                            border-radius: 4px;
+                            background: rgba(255, 0, 255, 0.5);
+                            border-radius: 5px;
+                            border: 2px solid rgba(0, 0, 0, 0.3);
                         }
                         
                         ::-webkit-scrollbar-thumb:hover {
-                            background: rgba(255, 0, 255, 0.6);
+                            background: rgba(255, 0, 255, 0.7);
                         }
                     `;
                     blogContainer.shadowRoot.appendChild(styleEl);
