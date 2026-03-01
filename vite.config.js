@@ -11,7 +11,8 @@ export default defineConfig({
         void: resolve(__dirname, 'void.html'),
         maps: resolve(__dirname, 'maps.html'),
         ticker: resolve(__dirname, 'ticker.html'),
-        ad: resolve(__dirname, 'ad.html')
+        ad: resolve(__dirname, 'ad.html'),
+        pixelblog: resolve(__dirname, 'pixelblog.html')
       }
     }
   },
