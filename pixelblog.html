@@ -126,65 +126,6 @@
         #full-pixel-blog > div {
             background: transparent !important;
         }
-        
-        /* Shadow DOM overrides for better visibility */
-        :host(.pixel-border) {
-            background: transparent !important;
-        }
-        
-        /* Blog container styles that will be injected into shadow DOM */
-        .pixel-blog-glass {
-            background: rgba(10, 10, 20, 0.85) !important;
-            backdrop-filter: blur(12px) saturate(180%);
-            -webkit-backdrop-filter: blur(12px) saturate(180%);
-            border: 2px solid rgba(255, 0, 255, 0.5) !important;
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
-        }
-        
-        .pixel-blog-card {
-            background: rgba(20, 20, 35, 0.9) !important;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 2px solid rgba(0, 255, 255, 0.4) !important;
-            box-shadow: 
-                0 4px 20px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
-            transition: all 0.2s ease;
-        }
-        
-        .pixel-blog-card:hover {
-            background: rgba(30, 30, 50, 0.95) !important;
-            border-color: rgba(255, 0, 255, 0.6) !important;
-            box-shadow: 
-                0 6px 30px rgba(255, 0, 255, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
-            transform: translateY(-2px);
-        }
-        
-        /* Text readability improvements */
-        .pixel-blog-text {
-            color: #e0e0e0 !important;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
-        }
-        
-        .pixel-blog-title {
-            color: #ff00ff !important;
-            text-shadow: 
-                2px 2px 0 rgba(0, 255, 255, 0.3),
-                0 0 20px rgba(255, 0, 255, 0.3) !important;
-        }
-        
-        .pixel-blog-category {
-            color: #ffff00 !important;
-            text-shadow: 0 0 10px rgba(255, 255, 0, 0.4) !important;
-        }
-        
-        .pixel-blog-date {
-            color: #00ffff !important;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3) !important;
-        }
     </style>
 </head>
 <body>
@@ -199,291 +140,51 @@
     <script src="/pixel-blog.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('[PixelBlog] DOM loaded, waiting for mount...');
             
-            // Function to inject enhanced styles into shadow DOM
-            function injectEnhancedStyles() {
-                const blogContainer = document.querySelector('#full-pixel-blog');
-                if (!blogContainer) {
-                    console.log('[PixelBlog] Container not found');
-                    return false;
-                }
-                if (!blogContainer.shadowRoot) {
-                    console.log('[PixelBlog] Shadow root not ready');
-                    return false;
-                }
+            function injectStyles() {
+                const container = document.querySelector('#full-pixel-blog');
+                if (!container || !container.shadowRoot) return false;
                 
-                console.log('[PixelBlog] Shadow root found, injecting styles...');
+                // Remove existing
+                const existing = container.shadowRoot.querySelector('#blog-styles');
+                if (existing) existing.remove();
                 
-                // Remove existing styles first
-                const existingStyle = blogContainer.shadowRoot.querySelector('#enhanced-styles');
-                if (existingStyle) {
-                    existingStyle.remove();
-                }
-                
-                const styleEl = document.createElement('style');
-                styleEl.id = 'enhanced-styles';
-                styleEl.textContent = `
-                        /* Root container with tree background visible */
-                        :host { 
-                            background: transparent !important;
-                            display: block;
-                        }
-                        
-                        #pixel-blog-root { 
-                            background: transparent !important;
-                            min-height: 100%;
-                            padding: 0;
-                        }
-                        
-                        /* Main wrapper - transparent */
-                        .pixel-blog-wrapper {
-                            background: transparent !important;
-                        }
-                        
-                        /* Blog cards */
-                        .pixel-border {
-                            background: rgba(25, 25, 40, 0.88) !important;
-                            backdrop-filter: blur(10px) !important;
-                            -webkit-backdrop-filter: blur(10px) !important;
-                            border: 2px solid rgba(0, 255, 255, 0.5) !important;
-                            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5) !important;
-                            margin-bottom: 1.5rem !important;
-                            padding: 1.5rem !important;
-                            display: block !important;
-                        }
-                        
-                        .pixel-border:hover {
-                            background: rgba(30, 30, 50, 0.92) !important;
-                            border-color: rgba(255, 0, 255, 0.7) !important;
-                        }
-                        
-                        /* Buttons */
-                        .pixel-button {
-                            background: rgba(0, 255, 255, 0.2) !important;
-                            border: 2px solid rgba(0, 255, 255, 0.6) !important;
-                            color: #00ffff !important;
-                            padding: 8px 16px !important;
-                            margin-top: 1rem !important;
-                            cursor: pointer !important;
-                        }
-                        
-                        /* ===== OVERRIDE ALL INLINE STYLES ===== */
-                        
-                        /* Target elements by their inline style color values */
-                        [style*="color: #aaa"],
-                        [style*="color:#aaa"] {
-                            color: #ffffff !important;
-                            text-shadow: 0 2px 4px rgba(0, 0, 0, 1) !important;
-                        }
-                        
-                        [style*="color: #666"],
-                        [style*="color:#666"] {
-                            color: #ff8888 !important;
-                            text-shadow: 0 1px 3px rgba(0, 0, 0, 1) !important;
-                        }
-                        
-                        [style*="color: #ff00ff"],
-                        [style*="color:#ff00ff"] {
-                            color: #ff40ff !important;
-                            text-shadow: 
-                                2px 2px 0 #000,
-                                -1px -1px 0 #000,
-                                1px -1px 0 #000,
-                                -1px 1px 0 #000,
-                                1px 1px 0 #000,
-                                0 0 15px rgba(255, 0, 255, 0.7) !important;
-                        }
-                        
-                        [style*="color: #ffff00"],
-                        [style*="color:#ffff00"] {
-                            color: #ffff00 !important;
-                            text-shadow: 
-                                0 0 0 #000,
-                                -1px -1px 0 #000,
-                                1px -1px 0 #000,
-                                -1px 1px 0 #000,
-                                1px 1px 0 #000,
-                                0 0 10px rgba(255, 255, 0, 0.6) !important;
-                            font-weight: 700 !important;
-                        }
-                        
-                        [style*="color: #00ffff"],
-                        [style*="color:#00ffff"] {
-                            color: #00ffff !important;
-                            text-shadow: 
-                                0 0 0 #000,
-                                -1px -1px 0 #000,
-                                1px -1px 0 #000,
-                                -1px 1px 0 #000,
-                                1px 1px 0 #000,
-                                0 0 10px rgba(0, 255, 255, 0.5) !important;
-                            font-weight: 600 !important;
-                        }
-                        
-                        /* All text - FORCE WHITE with strong shadow */
-                        *, *::before, *::after {
-                            color: #ffffff !important;
-                            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9) !important;
-                        }
-                        
-                        /* Paragraphs - Force readable */
-                        p, p *, p::before, p::after {
-                            color: #ffffff !important;
-                            font-size: 0.9rem !important;
-                            line-height: 1.7 !important;
-                            text-shadow: 
-                                0 1px 3px rgba(0, 0, 0, 1),
-                                0 2px 6px rgba(0, 0, 0, 0.9) !important;
-                        }
-                        
-                        /* Spans (category, date) */
-                        span, span *, span::before, span::after {
-                            text-shadow: 
-                                0 0 0 #000,
-                                -1px -1px 0 #000,
-                                1px -1px 0 #000,
-                                -1px 1px 0 #000,
-                                1px 1px 0 #000 !important;
-                            font-weight: 600 !important;
-                        }
-                        
-                        /* Headings */
-                        h1, h2, h3, h4, h5, h6,
-                        h1 *, h2 *, h3 *, h4 *, h5 *, h6 * {
-                            color: #ff40ff !important;
-                            text-shadow: 
-                                2px 2px 0 #000,
-                                -1px -1px 0 #000,
-                                1px -1px 0 #000,
-                                -1px 1px 0 #000,
-                                1px 1px 0 #000,
-                                0 0 20px rgba(255, 0, 255, 0.6) !important;
-                            font-weight: 800 !important;
-                        }
-                        
-                        /* SVG icons */
-                        svg, svg * {
-                            filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.9)) !important;
-                        }
-                        
-                        /* Buttons */
-                        button, [role="button"],
-                        button *, [role="button"] * {
-                            background: rgba(0, 255, 255, 0.25) !important;
-                            border: 2px solid rgba(0, 255, 255, 0.7) !important;
-                            color: #00ffff !important;
-                            text-shadow: 
-                                -1px -1px 0 #000,
-                                1px -1px 0 #000,
-                                -1px 1px 0 #000,
-                                1px 1px 0 #000,
-                                0 0 12px rgba(0, 255, 255, 0.7) !important;
-                            font-weight: 700 !important;
-                        }
-                        
-                        button:hover, [role="button"]:hover {
-                            background: rgba(0, 255, 255, 0.4) !important;
-                            color: #ffffff !important;
-                        }
-                        
-                        /* Inputs */
-                        input, textarea,
-                        input *, textarea * {
-                            background: rgba(0, 0, 0, 0.8) !important;
-                            border: 2px solid rgba(255, 0, 255, 0.6) !important;
-                            color: #ffffff !important;
-                            text-shadow: 0 1px 2px rgba(0, 0, 0, 1) !important;
-                        }
-                        
-                        /* Links */
-                        a, a * {
-                            color: #00ffff !important;
-                            text-shadow: 
-                                -1px -1px 0 #000,
-                                1px -1px 0 #000,
-                                -1px 1px 0 #000,
-                                1px 1px 0 #000,
-                                0 0 10px rgba(0, 255, 255, 0.5) !important;
-                            font-weight: 600 !important;
-                        }
-                        
-                        a:hover, a:hover * {
-                            color: #ff00ff !important;
-                            text-shadow: 
-                                -1px -1px 0 #000,
-                                1px -1px 0 #000,
-                                -1px 1px 0 #000,
-                                1px 1px 0 #000,
-                                0 0 15px rgba(255, 0, 255, 0.6) !important;
-                        }
-                        
-                        /* Scrollbar */
-                        ::-webkit-scrollbar {
-                            width: 10px;
-                        }
-                        
-                        ::-webkit-scrollbar-track {
-                            background: rgba(0, 0, 0, 0.5);
-                        }
-                        
-                        ::-webkit-scrollbar-thumb {
-                            background: rgba(255, 0, 255, 0.6);
-                            border-radius: 5px;
-                        }
-                        
-                        ::-webkit-scrollbar-thumb:hover {
-                            background: rgba(255, 0, 255, 0.8);
-                        }
-                    `;
-                    blogContainer.shadowRoot.appendChild(styleEl);
+                const style = document.createElement('style');
+                style.id = 'blog-styles';
+                style.textContent = `
+                    :host, #pixel-blog-root { background: transparent !important; }
                     
-                    // Also forcefully override inline styles with JavaScript
-                    fixTextStyles(blogContainer.shadowRoot);
+                    /* Wrapper transparent */
+                    .pixel-blog-wrapper { background: transparent !important; }
                     
-                    return true;
-                }
-                return false;
-            }
-            
-            // Function to directly fix inline styles on elements
-            function fixTextStyles(root) {
-                if (!root) return;
-                
-                // Fix all paragraphs (excerpt text)
-                const paragraphs = root.querySelectorAll('p');
-                paragraphs.forEach(p => {
-                    p.style.setProperty('color', '#ffffff', 'important');
-                    p.style.setProperty('text-shadow', '0 2px 4px rgba(0,0,0,0.9)', 'important');
-                    p.style.setProperty('font-weight', '500', 'important');
-                });
-                
-                // Fix spans (category, date, encrypted text)
-                const spans = root.querySelectorAll('span');
-                spans.forEach(span => {
-                    const text = span.textContent.toLowerCase();
-                    if (text.includes('encrypted') || text.includes('unlocked')) {
-                        span.style.setProperty('color', '#ff8888', 'important');
-                    } else if (span.style.color === 'rgb(170, 170, 170)' || span.style.color === '#aaa') {
-                        span.style.setProperty('color', '#ffffff', 'important');
+                    /* Cards with solid-ish background */
+                    .pixel-border {
+                        background: rgba(20, 20, 35, 0.9) !important;
+                        border: 2px solid rgba(0, 255, 255, 0.5) !important;
+                        margin-bottom: 1.5rem !important;
+                        padding: 1.5rem !important;
                     }
-                    span.style.setProperty('text-shadow', '0 1px 3px rgba(0,0,0,1)', 'important');
-                    span.style.setProperty('font-weight', '600', 'important');
-                });
-                
-                // Fix divs with inline styles
-                const divs = root.querySelectorAll('div');
-                divs.forEach(div => {
-                    if (div.style.color === 'rgb(102, 102, 102)' || div.style.color === '#666') {
-                        div.style.setProperty('color', '#ff8888', 'important');
+                    
+                    .pixel-border:hover {
+                        background: rgba(30, 30, 50, 0.95) !important;
+                        border-color: rgba(255, 0, 255, 0.6) !important;
                     }
-                });
-                
-                // Fix headings
-                const headings = root.querySelectorAll('h1, h2, h3, h4, h5, h6');
-                headings.forEach(h => {
-                    h.style.setProperty('text-shadow', '2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 0 15px rgba(255,0,255,0.6)', 'important');
-                });
+                    
+                    /* Text */
+                    p { color: #fff !important; text-shadow: 0 1px 2px #000 !important; }
+                    h3 { color: #ff00ff !important; text-shadow: 1px 1px 0 #000 !important; }
+                    span { text-shadow: 0 1px 1px #000 !important; }
+                    
+                    /* Buttons */
+                    .pixel-button {
+                        background: rgba(0, 255, 255, 0.2) !important;
+                        border: 2px solid rgba(0, 255, 255, 0.5) !important;
+                        color: #00ffff !important;
+                        padding: 8px 16px !important;
+                    }
+                `;
+                container.shadowRoot.appendChild(style);
+                return true;
             }
             
             if (typeof PixelBlog !== 'undefined') {
@@ -529,38 +230,15 @@
                     ]
                 });
                 
-                // Inject enhanced styles into shadow DOM after mount
+                // Try to inject styles multiple times
                 setTimeout(function tryInject() {
-                    if (!injectEnhancedStyles()) {
-                        // Retry if shadow DOM not ready yet
+                    if (!injectStyles()) {
                         setTimeout(tryInject, 100);
-                    } else {
-                        // Also apply JS fixes after styles are injected
-                        const blogContainer = document.querySelector('#full-pixel-blog');
-                        if (blogContainer && blogContainer.shadowRoot) {
-                            fixTextStyles(blogContainer.shadowRoot);
-                            // Re-apply periodically to catch dynamically added content
-                            setInterval(() => fixTextStyles(blogContainer.shadowRoot), 500);
-                        }
                     }
-                }, 100);
+                }, 50);
                 
-                // Also set up observer for dynamic content
-                const observer = new MutationObserver(function(mutations) {
-                    mutations.forEach(function(mutation) {
-                        if (mutation.addedNodes.length > 0) {
-                            injectEnhancedStyles();
-                        }
-                    });
-                });
-                
-                const blogContainer = document.querySelector('#full-pixel-blog');
-                if (blogContainer) {
-                    observer.observe(blogContainer, { childList: true, subtree: true });
-                }
-                
-                // Periodic re-injection to ensure styles persist
-                setInterval(injectEnhancedStyles, 1000);
+                // Also inject periodically
+                setInterval(injectStyles, 500);
             }
         });
     </script>
