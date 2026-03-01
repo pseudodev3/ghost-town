@@ -236,44 +236,36 @@
                             padding: 0;
                         }
                         
-                        /* Main blog container - Darker for better text contrast */
-                        .pixel-border, [class*="border"] {
-                            background: rgba(5, 5, 15, 0.95) !important;
-                            backdrop-filter: blur(24px) saturate(200%) !important;
-                            -webkit-backdrop-filter: blur(24px) saturate(200%) !important;
-                            border: 2px solid rgba(255, 0, 255, 0.5) !important;
-                            box-shadow: 
-                                0 12px 40px rgba(0, 0, 0, 0.6),
-                                inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
-                            border-radius: 4px !important;
-                        }
-                        
-                        /* Blog cards - individual posts */
-                        .pixel-border {
-                            background: rgba(20, 20, 35, 0.9) !important;
-                            backdrop-filter: blur(12px) !important;
-                            -webkit-backdrop-filter: blur(12px) !important;
-                            border: 2px solid rgba(0, 255, 255, 0.5) !important;
-                            box-shadow: 
-                                0 6px 24px rgba(0, 0, 0, 0.5),
-                                inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
-                            transition: all 0.2s ease !important;
-                            margin-bottom: 1.5rem !important;
-                        }
-                        
-                        /* Card hover effect */
-                        .pixel-border:hover {
-                            background: rgba(25, 25, 45, 0.94) !important;
-                            border-color: rgba(255, 0, 255, 0.7) !important;
-                            box-shadow: 
-                                0 8px 32px rgba(255, 0, 255, 0.25),
-                                inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
-                            transform: translateY(-2px);
-                        }
-                        
-                        /* Main wrapper - don't touch this */
+                        /* Main wrapper - transparent */
                         .pixel-blog-wrapper {
                             background: transparent !important;
+                        }
+                        
+                        /* Blog cards */
+                        .pixel-border {
+                            background: rgba(25, 25, 40, 0.88) !important;
+                            backdrop-filter: blur(10px) !important;
+                            -webkit-backdrop-filter: blur(10px) !important;
+                            border: 2px solid rgba(0, 255, 255, 0.5) !important;
+                            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5) !important;
+                            margin-bottom: 1.5rem !important;
+                            padding: 1.5rem !important;
+                            display: block !important;
+                        }
+                        
+                        .pixel-border:hover {
+                            background: rgba(30, 30, 50, 0.92) !important;
+                            border-color: rgba(255, 0, 255, 0.7) !important;
+                        }
+                        
+                        /* Buttons */
+                        .pixel-button {
+                            background: rgba(0, 255, 255, 0.2) !important;
+                            border: 2px solid rgba(0, 255, 255, 0.6) !important;
+                            color: #00ffff !important;
+                            padding: 8px 16px !important;
+                            margin-top: 1rem !important;
+                            cursor: pointer !important;
                         }
                         
                         /* ===== OVERRIDE ALL INLINE STYLES ===== */
