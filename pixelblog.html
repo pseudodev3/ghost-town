@@ -199,18 +199,31 @@
     <script src="/pixel-blog.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('[PixelBlog] DOM loaded, waiting for mount...');
+            
             // Function to inject enhanced styles into shadow DOM
             function injectEnhancedStyles() {
                 const blogContainer = document.querySelector('#full-pixel-blog');
-                if (blogContainer && blogContainer.shadowRoot) {
-                    // Check if styles already injected
-                    if (blogContainer.shadowRoot.querySelector('#enhanced-styles')) {
-                        return true;
-                    }
-                    
-                    const styleEl = document.createElement('style');
-                    styleEl.id = 'enhanced-styles';
-                    styleEl.textContent = `
+                if (!blogContainer) {
+                    console.log('[PixelBlog] Container not found');
+                    return false;
+                }
+                if (!blogContainer.shadowRoot) {
+                    console.log('[PixelBlog] Shadow root not ready');
+                    return false;
+                }
+                
+                console.log('[PixelBlog] Shadow root found, injecting styles...');
+                
+                // Remove existing styles first
+                const existingStyle = blogContainer.shadowRoot.querySelector('#enhanced-styles');
+                if (existingStyle) {
+                    existingStyle.remove();
+                }
+                
+                const styleEl = document.createElement('style');
+                styleEl.id = 'enhanced-styles';
+                styleEl.textContent = `
                         /* Root container with tree background visible */
                         :host { 
                             background: transparent !important;
@@ -235,12 +248,12 @@
                             border-radius: 4px !important;
                         }
                         
-                        /* Blog cards - SOLID dark background for text readability */
+                        /* Blog cards - Semi-transparent for tree visibility */
                         div[class*="border"] > div,
                         [style*="border"] {
-                            background: rgba(10, 10, 25, 0.98) !important;
-                            backdrop-filter: blur(20px) !important;
-                            -webkit-backdrop-filter: blur(20px) !important;
+                            background: rgba(10, 10, 25, 0.88) !important;
+                            backdrop-filter: blur(16px) !important;
+                            -webkit-backdrop-filter: blur(16px) !important;
                             border: 2px solid rgba(0, 255, 255, 0.4) !important;
                             box-shadow: 
                                 0 6px 24px rgba(0, 0, 0, 0.5),
@@ -252,7 +265,7 @@
                         /* Card hover effect */
                         div[class*="border"] > div:hover,
                         [style*="border"]:hover {
-                            background: rgba(15, 15, 35, 0.99) !important;
+                            background: rgba(15, 15, 35, 0.93) !important;
                             border-color: rgba(255, 0, 255, 0.6) !important;
                             box-shadow: 
                                 0 8px 32px rgba(255, 0, 255, 0.2),
