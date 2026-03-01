@@ -1,4 +1,8 @@
 :root {
+    /* === FONTS === */
+    --font-primary: 'Space Grotesk', 'Courier New', monospace;
+    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    
     /* === COLOR PALETTE === */
     --glass-bg: rgba(10, 10, 10, 0.75);
     --glass-border: rgba(255, 255, 255, 0.12);
@@ -25,7 +29,7 @@
 body {
     margin: 0;
     background-color: #000000;
-    font-family: 'Verdana', sans-serif;
+    font-family: var(--font-primary);
     /* ENABLE SCROLLING HERE */
     height: 100vh; 
     width: 100vw; 

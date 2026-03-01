@@ -6,10 +6,21 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "api": "node api-server.js",
+    "api:dev": "node --watch api-server.js",
+    "start": "npm run build && npm run api"
   },
   "devDependencies": {
     "sharp": "^0.34.5",
     "vite": "^5.0.0"
+  },
+  "dependencies": {
+    "@fontsource/jetbrains-mono": "^5.2.8",
+    "@fontsource/space-grotesk": "^5.2.10",
+    "better-sqlite3": "^12.6.2",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1"
   }
 }

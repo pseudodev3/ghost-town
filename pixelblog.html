@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pixel Blog</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='16' y1='2' x2='16' y2='28' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0%25' stop-color='%23151520'/%3E%3Cstop offset='50%25' stop-color='%230a0a10'/%3E%3Cstop offset='100%25' stop-color='%23050505'/%3E%3C/linearGradient%3E%3Cfilter id='s' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeDropShadow dx='0' dy='1' stdDeviation='1.5' flood-color='%23a0c4ff' flood-opacity='0.5'/%3E%3C/filter%3E%3ClinearGradient id='e' x1='12' y1='12' x2='12' y2='18' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0%25' stop-color='%23c4d8ff'/%3E%3Cstop offset='100%25' stop-color='%23a0c4ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M16 2C9 2 4 8 4 15V28L10 24L16 28L22 24L28 28V15C28 8 23 2 16 2Z' fill='url(%23g)' filter='url(%23s)'/%3E%3Cpath d='M16 3.5C10 3.5 5.5 8.5 5.5 15V26.2L10.5 22.7L16 26.2L21.5 22.7L26.5 26.2V15C26.5 8.5 22 3.5 16 3.5Z' stroke='%23a0c4ff' stroke-width='1.5' stroke-linejoin='round' opacity='0.95'/%3E%3Cpath d='M10 13L14 15L10 17V13Z' fill='url(%23e)'/%3E%3Cpath d='M22 13L18 15L22 17V13Z' fill='url(%23e)'/%3E%3Cellipse cx='16' cy='7' rx='4' ry='2' fill='%23a0c4ff' opacity='0.12'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="/fonts/fonts.css">
     <style>
         * {
             margin: 0;
@@ -12,25 +13,26 @@
             box-sizing: border-box;
         }
         
+        :root {
+            --font-primary: 'Space Grotesk', 'Courier New', monospace;
+            --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+        }
+        
         html, body {
             min-height: 100%;
+            font-family: var(--font-primary);
         }
         
         body {
             background: transparent;
             color: #fff;
-            font-family: 'Courier New', Courier, monospace;
             position: relative;
             image-rendering: pixelated;
             margin: 0;
             overflow-x: hidden;
         }
         
-        /* Tree background - covers full page */
-        html {
-            height: 100%;
-        }
-        
+        /* Tree background */
         body::before {
             content: '';
             position: fixed;
@@ -38,7 +40,6 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            min-height: 100%;
             background: url('/assets/tree.webp');
             background-size: cover;
             background-position: center center;
@@ -70,14 +71,12 @@
             z-index: 9999;
         }
         
-        /* Main content container */
         .pixelblog-content {
             max-width: 900px;
             margin: 0 auto;
             padding: 20px;
         }
         
-        /* Header styling */
         .pixelblog-header {
             display: flex;
             justify-content: space-between;
@@ -116,15 +115,9 @@
             box-shadow: 4px 4px 0 rgba(0, 255, 255, 0.5);
         }
         
-        /* Blog window container with tree background */
         #full-pixel-blog {
             min-height: 600px;
             position: relative;
-        }
-        
-        /* The blog window itself - uses tree as background */
-        #full-pixel-blog > div {
-            background: transparent !important;
         }
     </style>
 </head>
@@ -139,13 +132,24 @@
 
     <script src="/pixel-blog.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
+            
+            // Fetch posts from API
+            async function fetchPosts() {
+                try {
+                    const response = await fetch('/api/posts');
+                    if (!response.ok) throw new Error('Failed to fetch');
+                    return await response.json();
+                } catch (err) {
+                    console.error('[Blog] API error:', err);
+                    return null;
+                }
+            }
             
             function injectStyles() {
                 const container = document.querySelector('#full-pixel-blog');
                 if (!container || !container.shadowRoot) return false;
                 
-                // Remove existing
                 const existing = container.shadowRoot.querySelector('#blog-styles');
                 if (existing) existing.remove();
                 
@@ -153,11 +157,8 @@
                 style.id = 'blog-styles';
                 style.textContent = `
                     :host, #pixel-blog-root { background: transparent !important; }
-                    
-                    /* Wrapper transparent */
                     .pixel-blog-wrapper { background: transparent !important; }
                     
-                    /* Cards with solid-ish background */
                     .pixel-border {
                         background: rgba(20, 20, 35, 0.9) !important;
                         border: 2px solid rgba(0, 255, 255, 0.5) !important;
@@ -170,12 +171,10 @@
                         border-color: rgba(255, 0, 255, 0.6) !important;
                     }
                     
-                    /* Text */
                     p { color: #fff !important; text-shadow: 0 1px 2px #000 !important; }
                     h3 { color: #ff00ff !important; text-shadow: 1px 1px 0 #000 !important; }
                     span { text-shadow: 0 1px 1px #000 !important; }
                     
-                    /* Buttons */
                     .pixel-button {
                         background: rgba(0, 255, 255, 0.2) !important;
                         border: 2px solid rgba(0, 255, 255, 0.5) !important;
@@ -187,6 +186,9 @@
                 return true;
             }
             
+            // Get posts from API or fallback
+            const posts = await fetchPosts();
+            
             if (typeof PixelBlog !== 'undefined') {
                 PixelBlog.mount({
                     container: '#full-pixel-blog',
@@ -194,14 +196,14 @@
                     storageKey: 'ghost_town_blog',
                     enableAdmin: true,
                     fullPage: true,
-                    posts: [
+                    posts: posts || [
                         {
                             id: 1,
                             title: "La Vague Streetwear",
                             date: "2026-02-19",
                             category: "Project",
                             excerpt: "Finished building the digital storefront for La Vague. Deep dives into texture, minimalism, and flow.",
-                            content: "Finished building the digital storefront for La Vague. Deep dives into texture, minimalism, and flow. The project involved creating a unique e-commerce experience that captures the essence of streetwear culture while maintaining a clean, minimalist aesthetic. Every detail was crafted to reflect the brand's identity."
+                            content: "Finished building the digital storefront for La Vague. Deep dives into texture, minimalism, and flow."
                         },
                         {
                             id: 2,
@@ -209,7 +211,7 @@
                             date: "2026-02-05",
                             category: "AI",
                             excerpt: "Created a personal AI that lives on my laptop. It sees, it remembers, it helps.",
-                            content: "Created a personal AI that lives on my laptop. It sees, it remembers, it helps. This has been a fascinating journey into local LLMs and computer vision. The ghost watches, learns, and assists in ways I never imagined possible. It's like having a digital companion that actually understands context."
+                            content: "Created a personal AI that lives on my laptop. It sees, it remembers, it helps."
                         },
                         {
                             id: 3,
@@ -217,7 +219,7 @@
                             date: "2026-01-20",
                             category: "Goals",
                             excerpt: "Setting impossible goals and chasing them. Superhero status or bust.",
-                            content: "Setting impossible goals and chasing them. Superhero status or bust. By 2030, I aim to reach a level of mastery in my craft that rivals the heroes I look up to. Every day is a step toward that impossible goal. The journey is chaotic, but the direction is clear."
+                            content: "Setting impossible goals and chasing them. Superhero status or bust."
                         },
                         {
                             id: 4,
@@ -225,19 +227,17 @@
                             date: "2025-12-15",
                             category: "Launch",
                             excerpt: "Finally launched my personal site. CRT effects, ghost pets, and all.",
-                            content: "Finally launched my personal site. CRT effects, ghost pets, and all. This has been a labor of love - combining retro aesthetics with modern web tech. The ghost town is now open for visitors. The CRT overlay, the flickering lights, the ambient music - everything came together to create this digital haunt."
+                            content: "Finally launched my personal site. CRT effects, ghost pets, and all."
                         }
                     ]
                 });
                 
-                // Try to inject styles multiple times
                 setTimeout(function tryInject() {
                     if (!injectStyles()) {
                         setTimeout(tryInject, 100);
                     }
                 }, 50);
                 
-                // Also inject periodically
                 setInterval(injectStyles, 500);
             }
         });
