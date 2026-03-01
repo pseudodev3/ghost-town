@@ -248,28 +248,33 @@
                             border-radius: 4px !important;
                         }
                         
-                        /* Blog cards - Semi-transparent for tree visibility */
-                        div[class*="border"] > div,
-                        [style*="border"] {
-                            background: rgba(10, 10, 25, 0.88) !important;
+                        /* Blog cards - Balanced transparency for tree visibility */
+                        .pixel-border,
+                        div[class*="border"],
+                        div[class*="border"] > div {
+                            background: rgba(20, 20, 35, 0.92) !important;
                             backdrop-filter: blur(16px) !important;
                             -webkit-backdrop-filter: blur(16px) !important;
-                            border: 2px solid rgba(0, 255, 255, 0.4) !important;
+                            border: 2px solid rgba(0, 255, 255, 0.5) !important;
                             box-shadow: 
                                 0 6px 24px rgba(0, 0, 0, 0.5),
-                                inset 0 1px 0 rgba(255, 255, 255, 0.03) !important;
+                                inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
                             transition: all 0.2s ease !important;
                             padding: 1.5rem !important;
+                            display: block !important;
+                            visibility: visible !important;
+                            opacity: 1 !important;
                         }
                         
                         /* Card hover effect */
-                        div[class*="border"] > div:hover,
-                        [style*="border"]:hover {
-                            background: rgba(15, 15, 35, 0.93) !important;
-                            border-color: rgba(255, 0, 255, 0.6) !important;
+                        .pixel-border:hover,
+                        div[class*="border"]:hover,
+                        div[class*="border"] > div:hover {
+                            background: rgba(25, 25, 45, 0.95) !important;
+                            border-color: rgba(255, 0, 255, 0.7) !important;
                             box-shadow: 
-                                0 8px 32px rgba(255, 0, 255, 0.2),
-                                inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+                                0 8px 32px rgba(255, 0, 255, 0.25),
+                                inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
                             transform: translateY(-2px);
                         }
                         
