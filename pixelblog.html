@@ -225,9 +225,9 @@
                         
                         /* Main blog container - Darker for better text contrast */
                         .pixel-border, [class*="border"] {
-                            background: rgba(8, 8, 18, 0.92) !important;
-                            backdrop-filter: blur(20px) saturate(200%) !important;
-                            -webkit-backdrop-filter: blur(20px) saturate(200%) !important;
+                            background: rgba(5, 5, 15, 0.95) !important;
+                            backdrop-filter: blur(24px) saturate(200%) !important;
+                            -webkit-backdrop-filter: blur(24px) saturate(200%) !important;
                             border: 2px solid rgba(255, 0, 255, 0.5) !important;
                             box-shadow: 
                                 0 12px 40px rgba(0, 0, 0, 0.6),
@@ -235,12 +235,12 @@
                             border-radius: 4px !important;
                         }
                         
-                        /* Blog cards - Much more opaque for text readability */
+                        /* Blog cards - SOLID dark background for text readability */
                         div[class*="border"] > div,
                         [style*="border"] {
-                            background: rgba(15, 15, 30, 0.95) !important;
-                            backdrop-filter: blur(16px) !important;
-                            -webkit-backdrop-filter: blur(16px) !important;
+                            background: rgba(10, 10, 25, 0.98) !important;
+                            backdrop-filter: blur(20px) !important;
+                            -webkit-backdrop-filter: blur(20px) !important;
                             border: 2px solid rgba(0, 255, 255, 0.4) !important;
                             box-shadow: 
                                 0 6px 24px rgba(0, 0, 0, 0.5),
@@ -252,7 +252,7 @@
                         /* Card hover effect */
                         div[class*="border"] > div:hover,
                         [style*="border"]:hover {
-                            background: rgba(20, 20, 40, 0.97) !important;
+                            background: rgba(15, 15, 35, 0.99) !important;
                             border-color: rgba(255, 0, 255, 0.6) !important;
                             box-shadow: 
                                 0 8px 32px rgba(255, 0, 255, 0.2),
@@ -260,33 +260,79 @@
                             transform: translateY(-2px);
                         }
                         
-                        /* All text elements - CRISP & HIGH CONTRAST */
-                        *, *::before, *::after {
+                        /* ===== OVERRIDE ALL INLINE STYLES ===== */
+                        
+                        /* Target elements by their inline style color values */
+                        [style*="color: #aaa"],
+                        [style*="color:#aaa"] {
                             color: #ffffff !important;
-                            font-weight: 500 !important;
+                            text-shadow: 0 2px 4px rgba(0, 0, 0, 1) !important;
                         }
                         
-                        /* Category tags - Bright Yellow */
-                        span {
-                            color: #ffff00 !important;
+                        [style*="color: #666"],
+                        [style*="color:#666"] {
+                            color: #ff8888 !important;
+                            text-shadow: 0 1px 3px rgba(0, 0, 0, 1) !important;
+                        }
+                        
+                        [style*="color: #ff00ff"],
+                        [style*="color:#ff00ff"] {
+                            color: #ff40ff !important;
                             text-shadow: 
-                                0 0 0 #000,
-                                0 0 10px rgba(255, 255, 0, 0.5),
+                                2px 2px 0 #000,
                                 -1px -1px 0 #000,
                                 1px -1px 0 #000,
                                 -1px 1px 0 #000,
-                                1px 1px 0 #000 !important;
-                            font-weight: 700 !important;
-                            font-size: 0.75rem !important;
-                            letter-spacing: 1px !important;
+                                1px 1px 0 #000,
+                                0 0 15px rgba(255, 0, 255, 0.7) !important;
                         }
                         
-                        /* Dates - Bright Cyan */
-                        span + span, span:nth-child(2) {
+                        [style*="color: #ffff00"],
+                        [style*="color:#ffff00"] {
+                            color: #ffff00 !important;
+                            text-shadow: 
+                                0 0 0 #000,
+                                -1px -1px 0 #000,
+                                1px -1px 0 #000,
+                                -1px 1px 0 #000,
+                                1px 1px 0 #000,
+                                0 0 10px rgba(255, 255, 0, 0.6) !important;
+                            font-weight: 700 !important;
+                        }
+                        
+                        [style*="color: #00ffff"],
+                        [style*="color:#00ffff"] {
                             color: #00ffff !important;
                             text-shadow: 
                                 0 0 0 #000,
-                                0 0 10px rgba(0, 255, 255, 0.4),
+                                -1px -1px 0 #000,
+                                1px -1px 0 #000,
+                                -1px 1px 0 #000,
+                                1px 1px 0 #000,
+                                0 0 10px rgba(0, 255, 255, 0.5) !important;
+                            font-weight: 600 !important;
+                        }
+                        
+                        /* All text - FORCE WHITE with strong shadow */
+                        *, *::before, *::after {
+                            color: #ffffff !important;
+                            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9) !important;
+                        }
+                        
+                        /* Paragraphs - Force readable */
+                        p, p *, p::before, p::after {
+                            color: #ffffff !important;
+                            font-size: 0.9rem !important;
+                            line-height: 1.7 !important;
+                            text-shadow: 
+                                0 1px 3px rgba(0, 0, 0, 1),
+                                0 2px 6px rgba(0, 0, 0, 0.9) !important;
+                        }
+                        
+                        /* Spans (category, date) */
+                        span, span *, span::before, span::after {
+                            text-shadow: 
+                                0 0 0 #000,
                                 -1px -1px 0 #000,
                                 1px -1px 0 #000,
                                 -1px 1px 0 #000,
@@ -294,110 +340,69 @@
                             font-weight: 600 !important;
                         }
                         
-                        /* Headings - Bright Magenta with strong shadows */
-                        h1, h2, h3, h4, h5, h6 {
-                            color: #ff00ff !important;
+                        /* Headings */
+                        h1, h2, h3, h4, h5, h6,
+                        h1 *, h2 *, h3 *, h4 *, h5 *, h6 * {
+                            color: #ff40ff !important;
                             text-shadow: 
-                                3px 3px 0 #000,
+                                2px 2px 0 #000,
                                 -1px -1px 0 #000,
                                 1px -1px 0 #000,
                                 -1px 1px 0 #000,
                                 1px 1px 0 #000,
                                 0 0 20px rgba(255, 0, 255, 0.6) !important;
                             font-weight: 800 !important;
-                            font-size: 1.1rem !important;
-                            margin-bottom: 0.75rem !important;
-                            line-height: 1.4 !important;
-                        }
-                        
-                        /* Paragraph text - PURE WHITE for max readability */
-                        p {
-                            color: #ffffff !important;
-                            line-height: 1.8 !important;
-                            font-size: 0.9rem !important;
-                            font-weight: 500 !important;
-                            text-shadow: 
-                                0 1px 2px rgba(0, 0, 0, 1),
-                                0 2px 4px rgba(0, 0, 0, 0.8) !important;
-                            margin-bottom: 0 !important;
-                        }
-                        
-                        /* Encrypted/locked text */
-                        div[style*="color: #666"],
-                        div[style*="color:#666"] {
-                            color: #ff8888 !important;
-                            font-weight: 600 !important;
-                            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9) !important;
                         }
                         
                         /* SVG icons */
-                        svg {
-                            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8)) !important;
+                        svg, svg * {
+                            filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.9)) !important;
                         }
                         
-                        /* Buttons and interactive elements */
-                        button, [role="button"] {
-                            background: rgba(0, 255, 255, 0.2) !important;
-                            border: 2px solid rgba(0, 255, 255, 0.6) !important;
+                        /* Buttons */
+                        button, [role="button"],
+                        button *, [role="button"] * {
+                            background: rgba(0, 255, 255, 0.25) !important;
+                            border: 2px solid rgba(0, 255, 255, 0.7) !important;
                             color: #00ffff !important;
                             text-shadow: 
-                                0 0 0 #000,
-                                0 0 10px rgba(0, 255, 255, 0.6),
-                                -1px -1px 0 #000,
-                                1px -1px 0 #000,
-                                -1px 1px 0 #000,
-                                1px 1px 0 #000 !important;
-                            font-weight: 700 !important;
-                            padding: 10px 20px !important;
-                            cursor: pointer !important;
-                            transition: all 0.2s !important;
-                            font-size: 0.85rem !important;
-                        }
-                        
-                        button:hover, [role="button"]:hover {
-                            background: rgba(0, 255, 255, 0.35) !important;
-                            border-color: rgba(0, 255, 255, 0.9) !important;
-                            box-shadow: 0 0 25px rgba(0, 255, 255, 0.4) !important;
-                            color: #ffffff !important;
-                        }
-                        
-                        /* Input fields */
-                        input, textarea {
-                            background: rgba(0, 0, 0, 0.7) !important;
-                            border: 2px solid rgba(255, 0, 255, 0.5) !important;
-                            color: #ffffff !important;
-                            padding: 12px !important;
-                            font-size: 0.9rem !important;
-                            font-weight: 500 !important;
-                            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9) !important;
-                        }
-                        
-                        input:focus, textarea:focus {
-                            border-color: rgba(255, 0, 255, 0.8) !important;
-                            box-shadow: 0 0 20px rgba(255, 0, 255, 0.3) !important;
-                            outline: none !important;
-                            background: rgba(0, 0, 0, 0.8) !important;
-                        }
-                        
-                        /* Links */
-                        a {
-                            color: #00ffff !important;
-                            text-decoration: none !important;
-                            text-shadow: 
-                                0 0 0 #000,
                                 -1px -1px 0 #000,
                                 1px -1px 0 #000,
                                 -1px 1px 0 #000,
                                 1px 1px 0 #000,
-                                0 0 10px rgba(0, 255, 255, 0.4) !important;
-                            font-weight: 600 !important;
-                            transition: all 0.2s !important;
+                                0 0 12px rgba(0, 255, 255, 0.7) !important;
+                            font-weight: 700 !important;
                         }
                         
-                        a:hover {
+                        button:hover, [role="button"]:hover {
+                            background: rgba(0, 255, 255, 0.4) !important;
+                            color: #ffffff !important;
+                        }
+                        
+                        /* Inputs */
+                        input, textarea,
+                        input *, textarea * {
+                            background: rgba(0, 0, 0, 0.8) !important;
+                            border: 2px solid rgba(255, 0, 255, 0.6) !important;
+                            color: #ffffff !important;
+                            text-shadow: 0 1px 2px rgba(0, 0, 0, 1) !important;
+                        }
+                        
+                        /* Links */
+                        a, a * {
+                            color: #00ffff !important;
+                            text-shadow: 
+                                -1px -1px 0 #000,
+                                1px -1px 0 #000,
+                                -1px 1px 0 #000,
+                                1px 1px 0 #000,
+                                0 0 10px rgba(0, 255, 255, 0.5) !important;
+                            font-weight: 600 !important;
+                        }
+                        
+                        a:hover, a:hover * {
                             color: #ff00ff !important;
                             text-shadow: 
-                                0 0 0 #000,
                                 -1px -1px 0 #000,
                                 1px -1px 0 #000,
                                 -1px 1px 0 #000,
@@ -405,29 +410,72 @@
                                 0 0 15px rgba(255, 0, 255, 0.6) !important;
                         }
                         
-                        /* Scrollbar styling */
+                        /* Scrollbar */
                         ::-webkit-scrollbar {
                             width: 10px;
                         }
                         
                         ::-webkit-scrollbar-track {
-                            background: rgba(0, 0, 0, 0.4);
+                            background: rgba(0, 0, 0, 0.5);
                         }
                         
                         ::-webkit-scrollbar-thumb {
-                            background: rgba(255, 0, 255, 0.5);
+                            background: rgba(255, 0, 255, 0.6);
                             border-radius: 5px;
-                            border: 2px solid rgba(0, 0, 0, 0.3);
                         }
                         
                         ::-webkit-scrollbar-thumb:hover {
-                            background: rgba(255, 0, 255, 0.7);
+                            background: rgba(255, 0, 255, 0.8);
                         }
                     `;
                     blogContainer.shadowRoot.appendChild(styleEl);
+                    
+                    // Also forcefully override inline styles with JavaScript
+                    fixTextStyles(blogContainer.shadowRoot);
+                    
                     return true;
                 }
                 return false;
+            }
+            
+            // Function to directly fix inline styles on elements
+            function fixTextStyles(root) {
+                if (!root) return;
+                
+                // Fix all paragraphs (excerpt text)
+                const paragraphs = root.querySelectorAll('p');
+                paragraphs.forEach(p => {
+                    p.style.setProperty('color', '#ffffff', 'important');
+                    p.style.setProperty('text-shadow', '0 2px 4px rgba(0,0,0,0.9)', 'important');
+                    p.style.setProperty('font-weight', '500', 'important');
+                });
+                
+                // Fix spans (category, date, encrypted text)
+                const spans = root.querySelectorAll('span');
+                spans.forEach(span => {
+                    const text = span.textContent.toLowerCase();
+                    if (text.includes('encrypted') || text.includes('unlocked')) {
+                        span.style.setProperty('color', '#ff8888', 'important');
+                    } else if (span.style.color === 'rgb(170, 170, 170)' || span.style.color === '#aaa') {
+                        span.style.setProperty('color', '#ffffff', 'important');
+                    }
+                    span.style.setProperty('text-shadow', '0 1px 3px rgba(0,0,0,1)', 'important');
+                    span.style.setProperty('font-weight', '600', 'important');
+                });
+                
+                // Fix divs with inline styles
+                const divs = root.querySelectorAll('div');
+                divs.forEach(div => {
+                    if (div.style.color === 'rgb(102, 102, 102)' || div.style.color === '#666') {
+                        div.style.setProperty('color', '#ff8888', 'important');
+                    }
+                });
+                
+                // Fix headings
+                const headings = root.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                headings.forEach(h => {
+                    h.style.setProperty('text-shadow', '2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 0 15px rgba(255,0,255,0.6)', 'important');
+                });
             }
             
             if (typeof PixelBlog !== 'undefined') {
@@ -478,8 +526,16 @@
                     if (!injectEnhancedStyles()) {
                         // Retry if shadow DOM not ready yet
                         setTimeout(tryInject, 100);
+                    } else {
+                        // Also apply JS fixes after styles are injected
+                        const blogContainer = document.querySelector('#full-pixel-blog');
+                        if (blogContainer && blogContainer.shadowRoot) {
+                            fixTextStyles(blogContainer.shadowRoot);
+                            // Re-apply periodically to catch dynamically added content
+                            setInterval(() => fixTextStyles(blogContainer.shadowRoot), 500);
+                        }
                     }
-                }, 50);
+                }, 100);
                 
                 // Also set up observer for dynamic content
                 const observer = new MutationObserver(function(mutations) {
