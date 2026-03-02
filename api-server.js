@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3003;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'ghost-town-1337';
 
 // Middleware
