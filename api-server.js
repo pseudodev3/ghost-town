@@ -22,6 +22,11 @@ app.use((req, res, next) => {
   next();
 });
 
+// Simple test endpoint
+app.get('/', (req, res) => {
+  res.send('API is running');
+});
+
 // Initialize SQLite database
 const dbPath = path.join(__dirname, 'data', 'blog.db');
 
@@ -211,7 +216,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Internal server error' });
 });
 
-app.listen(PORT, () => {
-  console.log(`[API] Server running on port ${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`[API] Server running on http://0.0.0.0:${PORT}`);
   console.log(`[API] Database: ${dbPath}`);
 });
