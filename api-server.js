@@ -16,6 +16,12 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'ghost-town-1337';
 app.use(cors());
 app.use(express.json());
 
+// Request logging
+app.use((req, res, next) => {
+  console.log(`[API] ${req.method} ${req.path}`);
+  next();
+});
+
 // Initialize SQLite database
 const dbPath = path.join(__dirname, 'data', 'blog.db');
 
@@ -188,11 +194,13 @@ app.delete('/api/posts/:id', requireAuth, (req, res) => {
 
 // Health check
 app.get('/api/health', (req, res) => {
+  console.log('[API] Health check requested');
   try {
-    // Also check DB is accessible
     db.prepare('SELECT 1').get();
+    console.log('[API] Health check OK');
     res.json({ status: 'ok', db: 'connected', timestamp: new Date().toISOString() });
   } catch (err) {
+    console.error('[API] Health check failed:', err.message);
     res.status(500).json({ status: 'error', db: err.message });
   }
 });
