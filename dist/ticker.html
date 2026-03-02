@@ -3,75 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='16' y1='2' x2='16' y2='28' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0%25' stop-color='%23151520'/%3E%3Cstop offset='50%25' stop-color='%230a0a10'/%3E%3Cstop offset='100%25' stop-color='%23050505'/%3E%3C/linearGradient%3E%3Cfilter id='s' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeDropShadow dx='0' dy='1' stdDeviation='1.5' flood-color='%23a0c4ff' flood-opacity='0.5'/%3E%3C/filter%3E%3ClinearGradient id='e' x1='12' y1='12' x2='12' y2='18' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0%25' stop-color='%23c4d8ff'/%3E%3Cstop offset='100%25' stop-color='%23a0c4ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M16 2C9 2 4 8 4 15V28L10 24L16 28L22 24L28 28V15C28 8 23 2 16 2Z' fill='url(%23g)' filter='url(%23s)'/%3E%3Cpath d='M16 3.5C10 3.5 5.5 8.5 5.5 15V26.2L10.5 22.7L16 26.2L21.5 22.7L26.5 26.2V15C26.5 8.5 22 3.5 16 3.5Z' stroke='%23a0c4ff' stroke-width='1.5' stroke-linejoin='round' opacity='0.95'/%3E%3Cpath d='M10 13L14 15L10 17V13Z' fill='url(%23e)'/%3E%3Cpath d='M22 13L18 15L22 17V13Z' fill='url(%23e)'/%3E%3Cellipse cx='16' cy='7' rx='4' ry='2' fill='%23a0c4ff' opacity='0.12'/%3E%3C/svg%3E">
+    <!-- Bundle shared styles -->
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body { 
-            margin: 0; padding: 0; overflow: hidden; background: transparent;
-            font-family: 'Verdana', sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden; 
+            background: transparent;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+        }
+        
+        .ticker-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(90deg, 
+                rgba(10, 10, 20, 0.95) 0%, 
+                rgba(20, 20, 35, 0.9) 50%,
+                rgba(10, 10, 20, 0.95) 100%);
+            border-top: 1px solid rgba(0, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(255, 0, 255, 0.2);
+            position: relative;
+        }
+        
+        /* Corner accents */
+        .ticker-container::before,
+        .ticker-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 40px;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+        
+        .ticker-container::before {
+            left: 0;
+            background: linear-gradient(90deg, rgba(10,10,20,1), transparent);
+        }
+        
+        .ticker-container::after {
+            right: 0;
+            background: linear-gradient(270deg, rgba(10,10,20,1), transparent);
         }
         
         .ticker-wrap {
-            width: 100%; height: 100%; overflow: hidden; white-space: nowrap;
-            mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-            -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-            display: flex; align-items: center;
+            width: 100%; 
+            height: 100%; 
+            overflow: hidden; 
+            white-space: nowrap;
+            display: flex; 
+            align-items: center;
+            mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
         }
 
         .ticker { 
             display: flex; 
             align-items: center;
             width: max-content; 
-            animation: marquee 15s linear infinite; 
-            will-change: transform; 
+            animation: marquee 20s linear infinite; 
+            will-change: transform;
+            padding: 8px 0;
         }
         
+        /* Label styling */
         .label {
-            font-size: 12px; 
-            font-weight: 450; /* Reduced from 800 */
-            color: #6c9bd1; 
-            margin-right: 15px; 
+            font-size: 11px; 
+            font-weight: 700;
+            background: linear-gradient(90deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-right: 20px;
+            margin-left: 30px;
             white-space: nowrap;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
+        .label::before {
+            content: '◆';
+            color: #ff00ff;
+            font-size: 8px;
+            -webkit-text-fill-color: #ff00ff;
+        }
+        
+        /* Item styling */
         .item {
             font-size: 12px; 
-            font-weight: 430; /* Reduced from 700 */
-            color: #ccc; text-decoration: none; text-transform: uppercase;
-            letter-spacing: 1px; transition: 0.3s;
-            margin: 0 15px;
+            font-weight: 500;
+            color: #c0c0d0;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            margin: 0 12px;
             white-space: nowrap;
             position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 8px;
+            border-radius: 4px;
         }
 
-        .item:hover { color: #a0c4ff; text-shadow: 0 0 10px rgba(160, 196, 255, 0.6); }
-
-        .separator { color: #555; margin-left: 10px; font-weight: 400; } 
+        .item:hover { 
+            color: #ffffff;
+            background: rgba(0, 255, 255, 0.1);
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+            transform: translateY(-1px);
+        }
         
+        /* Project icons */
+        .item::before {
+            content: '›';
+            color: #00ffff;
+            font-size: 14px;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+        
+        .item:hover::before {
+            opacity: 1;
+            text-shadow: 0 0 10px #00ffff;
+        }
+
+        /* Separator */
+        .separator { 
+            color: rgba(255, 0, 255, 0.5);
+            margin-left: 8px;
+            font-weight: 400;
+            font-size: 10px;
+            opacity: 0.6;
+        }
+        
+        /* Tech badges */
+        .tech-badge {
+            font-size: 9px;
+            padding: 2px 6px;
+            background: rgba(160, 196, 255, 0.1);
+            border: 1px solid rgba(160, 196, 255, 0.3);
+            border-radius: 3px;
+            color: #a0c4ff;
+            margin-left: 8px;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Animation */
         @keyframes marquee { 
             0% { transform: translateX(0); } 
             100% { transform: translateX(-50%); } 
         }
         
-        .ticker-wrap:hover .ticker { animation-play-state: paused; }
+        /* Pause on hover */
+        .ticker-wrap:hover .ticker { 
+            animation-play-state: paused; 
+        }
+        
+        /* Blinking cursor effect */
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 14px;
+            background: #00ffff;
+            margin-left: 4px;
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+        }
+        
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
     </style>
+  <script type="module" crossorigin src="/assets/modulepreload-polyfill-YP0FEG5d.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/styles-DED2KiUx.css">
 </head>
 <body>
-    <div class="ticker-wrap">
-        <div class="ticker">
-            
-            <span class="label">CHECK OUT MY PROJECTS:</span>
-            <a href="#" class="item" target="_blank">Sentry-AI <span class="separator">+</span></a>
-            <a href="#" class="item" target="_blank">Wormhole-P2P <span class="separator">+</span></a>
-            <a href="#" class="item" target="_blank">Ghost-Shell <span class="separator">+</span></a>
-            <a href="#" class="item" target="_blank">Neural-Hunt <span class="separator">+</span></a>
-            <a href="#" class="item" target="_blank" style="margin-right: 60px;">Lazor-Kit <span class="separator">+</span></a>
-            
-            <span class="label">CHECK OUT MY PROJECTS:</span>
-            <a href="#" class="item" target="_blank">Sentry-AI <span class="separator">+</span></a>
-            <a href="#" class="item" target="_blank">Wormhole-P2P <span class="separator">+</span></a>
-            <a href="#" class="item" target="_blank">Ghost-Shell <span class="separator">+</span></a>
-            <a href="#" class="item" target="_blank">Neural-Hunt <span class="separator">+</span></a>
-            <a href="#" class="item" target="_blank" style="margin-right: 60px;">Lazor-Kit <span class="separator">+</span></a>
+    <div class="ticker-container">
+        <div class="ticker-wrap">
+            <div class="ticker">
+                
+                <span class="label">PROJECTS<span class="cursor"></span></span>
+                <a href="#" class="item" target="_blank">Sentry-AI <span class="tech-badge">PYTHON</span><span class="separator">//</span></a>
+                <a href="#" class="item" target="_blank">Wormhole-P2P <span class="tech-badge">NODE</span><span class="separator">//</span></a>
+                <a href="#" class="item" target="_blank">Ghost-Shell <span class="tech-badge">HTML/JS</span><span class="separator">//</span></a>
+                <a href="#" class="item" target="_blank">Neural-Hunt <span class="tech-badge">PYTHON</span><span class="separator">//</span></a>
+                <a href="#" class="item" target="_blank" style="margin-right: 50px;">Lazor-Kit <span class="tech-badge">REACT</span><span class="separator">//</span></a>
+                
+                <span class="label">PROJECTS<span class="cursor"></span></span>
+                <a href="#" class="item" target="_blank">Sentry-AI <span class="tech-badge">PYTHON</span><span class="separator">//</span></a>
+                <a href="#" class="item" target="_blank">Wormhole-P2P <span class="tech-badge">NODE</span><span class="separator">//</span></a>
+                <a href="#" class="item" target="_blank">Ghost-Shell <span class="tech-badge">HTML/JS</span><span class="separator">//</span></a>
+                <a href="#" class="item" target="_blank">Neural-Hunt <span class="tech-badge">PYTHON</span><span class="separator">//</span></a>
+                <a href="#" class="item" target="_blank" style="margin-right: 50px;">Lazor-Kit <span class="tech-badge">REACT</span><span class="separator">//</span></a>
 
+            </div>
         </div>
     </div>
 </body>
