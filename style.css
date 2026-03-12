@@ -411,7 +411,7 @@ body {
 /* === WIDGET: DATABASE === */
 .db-container { display: flex; flex-direction: column; font-size: 12px; }
 .db-header { display: flex; padding: 8px 10px; border-bottom: 1px solid var(--glass-border); color: #666; font-weight: 400; text-transform: uppercase; font-size: 10px; background: rgba(0,0,0,0.2); }
-.db-row { display: flex; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; transition: background 0.1s; }
+.db-row { display: flex; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; transition: background 0.1s; min-height: 38px; align-items: center; }
 .db-row:hover { background: var(--highlight); }
 .db-name { flex: 2; font-weight: 400; color: #ddd; display: flex; align-items: center; gap: 6px; }
 .db-date { flex: 1; color: #777; } .db-tag { flex: 1; color: var(--accent); }
