@@ -111,7 +111,7 @@ function initAshCanvas() {
     const ctx = canvas.getContext('2d');
 
     let width, height;
-    const count = 250; // Reduced from 800 for better performance
+    const count = 500; // Increased to 500 for better density
     const pool = new Float32Array(count * 3);
 
     function resize() {
