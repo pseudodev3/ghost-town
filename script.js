@@ -267,53 +267,6 @@ function animateRunner() {
 animateRunner();
 
 // ==========================================
-// 7. PET 2: SUPERMAN
-// ==========================================
-const superGhost = document.getElementById('pixel-superman');
-const superSprite = document.getElementById('superman-sprite'); 
-let superState = 'flying'; 
-
-function superAI() {
-    if (!superGhost || !superSprite) return;
-    if (superState === 'flying') {
-        superSprite.classList.remove('super-sit');
-        superSprite.classList.add('super-fly');
-        const destX = Math.random() * (window.innerWidth - 50);
-        const destY = Math.random() * (window.innerHeight - 200);
-        if (Math.random() > 0.7) { landOnWindow(); } 
-        else { moveSuperman(destX, destY); setTimeout(superAI, 3000); }
-    }
-}
-
-function moveSuperman(x, y) {
-    if (!superGhost) return;
-    const currentX = parseFloat(superGhost.style.left || 0);
-    if (x < currentX) { superGhost.style.transform = "scaleX(1) rotate(-10deg)"; } 
-    else { superGhost.style.transform = "scaleX(-1) rotate(10deg)"; }
-    superGhost.style.left = x + 'px';
-    superGhost.style.top = y + 'px';
-}
-
-function landOnWindow() {
-    const allWins = document.querySelectorAll('.window, .static-window');
-    if (allWins.length === 0) { setTimeout(superAI, 1000); return; }
-    const targetWin = allWins[Math.floor(Math.random() * allWins.length)];
-    const rect = targetWin.getBoundingClientRect();
-    const sitX = rect.left + rect.width - 40; 
-    const sitY = rect.top - 25; 
-    superState = 'sitting';
-    moveSuperman(sitX, sitY);
-    setTimeout(() => {
-        if(!superGhost) return;
-        superSprite.classList.remove('super-fly');
-        superSprite.classList.add('super-sit');
-        superGhost.style.transform = "scaleX(1) rotate(0deg)";
-        setTimeout(() => { superState = 'flying'; superAI(); }, 6000);
-    }, 3000);
-}
-setTimeout(superAI, 1000);
-
-// ==========================================
 // 9. GRAVITY ENGINE & LAYOUT (OPTIMIZED)
 // ==========================================
 function autoResizePage() {
