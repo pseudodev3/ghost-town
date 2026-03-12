@@ -394,8 +394,7 @@ body {
     font-size: 12px; 
     line-height: 1.6; 
     color: #ccc; 
-    font-weight: 200;
-    /* Inherits Verdana from body, no typewriter font */
+    font-weight: 300;
 }
 
 .bio-text strong {
