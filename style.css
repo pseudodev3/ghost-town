@@ -101,27 +101,6 @@ body {
     pointer-events: auto;
 }
 
-/* ECLIPSE MODE (Global environmental shift) */
-body.eclipse-active {
-    background-color: #020202;
-    --glass-bg: rgba(5, 5, 5, 0.9);
-    --accent: #555;
-    --neon-blue: #444;
-}
-
-body.eclipse-active .the-sun {
-    background: #000;
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1), inset 0 0 10px #fff;
-}
-
-body.eclipse-active .bg-traces {
-    opacity: 0.1;
-}
-
-body.eclipse-active .window {
-    box-shadow: 0 10px 30px rgba(0,0,0,0.9);
-}
-
 @keyframes solar-flare {
     0%, 100% { transform: scale(1); opacity: 0.7; }
     50% { transform: scale(1.05); opacity: 0.9; }

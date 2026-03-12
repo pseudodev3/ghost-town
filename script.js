@@ -576,23 +576,6 @@ function initPowerToggle() {
     }
 }
 
-// === 15. ECLIPSE TOGGLE (SUN) ===
-function initEclipseToggle() {
-    const theSun = document.querySelector('.the-sun');
-    if (theSun) {
-        theSun.addEventListener('click', () => {
-            document.body.classList.toggle('eclipse-active');
-            const notif = document.getElementById('sound-notif');
-            if (notif) {
-                const isActive = document.body.classList.contains('eclipse-active');
-                notif.textContent = isActive ? 'ENVIRONMENT: DARK' : 'ENVIRONMENT: NORMAL';
-                notif.classList.add('show');
-                setTimeout(() => notif.classList.remove('show'), 3000);
-            }
-        });
-    }
-}
-
 // ==========================================
 // 16. STEALTH BOT PROTECTION (Anti-Headless)
 // ==========================================
@@ -623,7 +606,6 @@ animateRunner();
 initStats();
 initBlogHandlers();
 initPowerToggle();
-initEclipseToggle();
 
 setInterval(rotateStatus, 15000);
 setInterval(updateSystemMonitor, 10000);
