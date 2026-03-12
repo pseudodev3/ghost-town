@@ -103,7 +103,7 @@ windows.forEach(win => {
 });
 
 // ==========================================
-// 4. 3D ASH GENERATOR (HIGH-PERFORMANCE POOL)
+// 4. 3D ASH GENERATOR (OPTIMIZED)
 // ==========================================
 function initAshCanvas() {
     const canvas = document.getElementById('ash-canvas');
@@ -111,7 +111,7 @@ function initAshCanvas() {
     const ctx = canvas.getContext('2d');
 
     let width, height;
-    const count = 800;
+    const count = 250; // Reduced from 800 for better performance
     const pool = new Float32Array(count * 3);
 
     function resize() {
@@ -145,14 +145,16 @@ function initAshCanvas() {
         ctx.clearRect(0, 0, width, height);
         for (let i = 0; i < count; i++) {
             const idx = i * 3;
-            pool[idx + 2] -= 1.5; 
+            pool[idx + 2] -= 1.0; // Slightly slower for less visual noise
             if (pool[idx + 2] <= 0) { resetParticle(i); }
             const z = pool[idx + 2];
             const sx = (pool[idx] / z) * (width/4) + width/2;
             const sy = (pool[idx + 1] / z) * (height/4) + height/2;
-            const r = (1 - z / width) * 2;
-            ctx.fillStyle = `rgba(255, 230, 200, ${1 - z/width})`;
-            ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2); ctx.fill();
+            const size = (1 - z / width) * 2;
+            
+            // Optimized drawing: Use fillRect instead of arc for 'no gpu' mode
+            ctx.fillStyle = `rgba(255, 230, 200, ${0.8 - z/width})`;
+            ctx.fillRect(sx, sy, size, size);
         }
         requestAnimationFrame(animate);
     }
@@ -553,8 +555,8 @@ function formatRelativeTime(date) {
     return Math.floor(diff / 86400) + 'd ago';
 }
 
-// Update Spotify data every 30 seconds
-setInterval(fetchSpotifyData, 30000);
+// Update Spotify data every 60 seconds
+setInterval(fetchSpotifyData, 60000);
 fetchSpotifyData();
 
 // === 14. POWER TOGGLE LOGIC (SIGN) ===
@@ -617,8 +619,8 @@ initBlogHandlers();
 initPowerToggle();
 initEclipseToggle();
 
-setInterval(rotateStatus, 8000);
-setInterval(updateSystemMonitor, 2000);
+setInterval(rotateStatus, 15000);
+setInterval(updateSystemMonitor, 10000);
 updateSystemMonitor();
 
 
