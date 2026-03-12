@@ -344,6 +344,8 @@ const resizeObserver = new ResizeObserver(() => {
 resizeObserver.observe(document.body);
 document.querySelectorAll('.window, .static-window').forEach(el => resizeObserver.observe(el));
 
+// Adjust layout as soon as possible to avoid CLS
+document.addEventListener('DOMContentLoaded', autoResizePage);
 window.addEventListener('load', autoResizePage);
 window.addEventListener('resize', autoResizePage); 
 
@@ -601,7 +603,10 @@ function initPowerToggle() {
 
 // === INIT ===
 renderProjects();
-initAshCanvas();
+// Delay heavy initialization
+setTimeout(() => {
+    initAshCanvas();
+}, 1000);
 animateRunner();
 initStats();
 initBlogHandlers();

@@ -6,9 +6,14 @@
     <title>ghost town</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='16' y1='2' x2='16' y2='28' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0%25' stop-color='%23151520'/%3E%3Cstop offset='50%25' stop-color='%230a0a10'/%3E%3Cstop offset='100%25' stop-color='%23050505'/%3E%3C/linearGradient%3E%3Cfilter id='s' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeDropShadow dx='0' dy='1' stdDeviation='1.5' flood-color='%23a0c4ff' flood-opacity='0.5'/%3E%3C/filter%3E%3ClinearGradient id='e' x1='12' y1='12' x2='12' y2='18' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0%25' stop-color='%23c4d8ff'/%3E%3Cstop offset='100%25' stop-color='%23a0c4ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M16 2C9 2 4 8 4 15V28L10 24L16 28L22 24L28 28V15C28 8 23 2 16 2Z' fill='url(%23g)' filter='url(%23s)'/%3E%3Cpath d='M16 3.5C10 3.5 5.5 8.5 5.5 15V26.2L10.5 22.7L16 26.2L21.5 22.7L26.5 26.2V15C26.5 8.5 22 3.5 16 3.5Z' stroke='%23a0c4ff' stroke-width='1.5' stroke-linejoin='round' opacity='0.95'/%3E%3Cpath d='M10 13L14 15L10 17V13Z' fill='url(%23e)'/%3E%3Cpath d='M22 13L18 15L22 17V13Z' fill='url(%23e)'/%3E%3Cellipse cx='16' cy='7' rx='4' ry='2' fill='%23a0c4ff' opacity='0.12'/%3E%3C/svg%3E">
     
-    <!-- Preload fonts for LCP -->
+    <!-- Resource Hints -->
+    <link rel="preconnect" href="https://accounts.spotify.com">
+    <link rel="preconnect" href="https://api.spotify.com">
+    
+    <!-- Preload fonts and LCP image -->
     <link rel="preload" href="/fonts/space-grotesk/space-grotesk-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/space-grotesk/space-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/tree.webp" as="image">
 
     <!-- Styles and JS are bundled by Vite -->
     <script type="module">
@@ -42,7 +47,7 @@
             background-size: cover !important;
             background-position: center !important;
             image-rendering: pixelated;
-            min-height: 300px;
+            min-height: 380px; /* Reserved space for blog content */
         }
         
         #win-blog .content > div {
@@ -100,7 +105,7 @@
     </div>
 
     <div class="ghost-layer">
-        <div class="ghost-wrapper"><svg class="ghost-svg" viewBox="0 0 120 140"><path d="M60,10 C30,10 10,35 10,70 C10,105 20,115 30,130 C40,145 50,125 60,135 C70,125 80,145 90,130 C100,115 110,105 110,70 C110,35 90,10 60,10 Z" fill="#e0e0e0" /><circle cx="45" cy="55" r="4" fill="#111" /><circle cx="75" cy="55" r="4" fill="#111" /></svg></div>
+        <div class="ghost-wrapper"><svg class="ghost-svg" width="50" height="58" viewBox="0 0 120 140"><path d="M60,10 C30,10 10,35 10,70 C10,105 20,115 30,130 C40,145 50,125 60,135 C70,125 80,145 90,130 C100,115 110,105 110,70 C110,35 90,10 60,10 Z" fill="#e0e0e0" /><circle cx="45" cy="55" r="4" fill="#111" /><circle cx="75" cy="55" r="4" fill="#111" /></svg></div>
     </div>
 
     <div class="sticker" style="bottom: 20px; left: 20px;"><div class="badge"><span>NO</span> AI</div></div>
@@ -113,7 +118,7 @@
         </div>
         <div class="content" style="padding-top: 25px; padding-bottom: 25px;">
             <div class="profile-flex">
-                <img src="pfp.gif" class="avatar-img" alt="Ghost" loading="eager" decoding="async">
+                <img src="pfp.gif" class="avatar-img" width="85" height="85" alt="Ghost" loading="eager" decoding="async">
                 <div class="text-group">
                     <h2>Ghost</h2>
                     <span>Full Stack <span class="role-accent">Engineer</span></span>
@@ -138,7 +143,7 @@
         </div>
     </div>
 
-    <iframe class="ticker-frame" src="ticker.html" style="top: 598px; left: calc(50% - 420px);"></iframe>
+    <iframe class="ticker-frame" src="ticker.html" width="600" height="30" style="top: 598px; left: calc(50% - 420px);"></iframe>
 
     <div class="window" id="win-db" style="top: 632px; left: calc(50% - 420px); width: 600px;">
         <div class="title-bar">
@@ -251,7 +256,7 @@
         </div>
 
         <div style="position: relative; width: 100%; height: 130px; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
-            <iframe src="ad.html" style="width: 100%; height: 100%; border: none;"></iframe>
+            <iframe src="ad.html" width="220" height="130" style="width: 100%; height: 100%; border: none;"></iframe>
         </div>
 
     </div>
@@ -381,56 +386,65 @@
                 return true;
             }
             
-            if (typeof PixelBlog !== 'undefined') {
-                PixelBlog.mount({
-                    container: '#pixel-blog-container',
-                    adminPassword: 'ghost-town-1337',
-                    storageKey: 'ghost_town_blog',
-                    enableAdmin: true,
-                    compact: true,
-                    viewAllLink: '/pixelblog.html',
-                    posts: [
-                        {
-                            id: 1,
-                            title: "La Vague Streetwear",
-                            date: "2026-02-19",
-                            category: "Project",
-                            excerpt: "Finished building the digital storefront for La Vague. Deep dives into texture, minimalism, and flow.",
-                            content: "Finished building the digital storefront for La Vague. Deep dives into texture, minimalism, and flow."
-                        },
-                        {
-                            id: 2,
-                            title: "Building GHOST",
-                            date: "2026-02-05",
-                            category: "AI",
-                            excerpt: "Created a personal AI that lives on my laptop. It sees, it remembers, it helps.",
-                            content: "Created a personal AI that lives on my laptop. It sees, it remembers, it helps."
-                        },
-                        {
-                            id: 3,
-                            title: "The 2030 Deadline",
-                            date: "2026-01-20",
-                            category: "Goals",
-                            excerpt: "Setting impossible goals and chasing them. Superhero status or bust.",
-                            content: "Setting impossible goals and chasing them. Superhero status or bust."
-                        },
-                        {
-                            id: 4,
-                            title: "Ghost Town Goes Live",
-                            date: "2025-12-15",
-                            category: "Launch",
-                            excerpt: "Finally launched my personal site. CRT effects, ghost pets, and all.",
-                            content: "Finally launched my personal site. CRT effects, ghost pets, and all."
+            function mountPixelBlog() {
+                if (typeof PixelBlog !== 'undefined') {
+                    PixelBlog.mount({
+                        container: '#pixel-blog-container',
+                        adminPassword: 'ghost-town-1337',
+                        storageKey: 'ghost_town_blog',
+                        enableAdmin: true,
+                        compact: true,
+                        viewAllLink: '/pixelblog.html',
+                        posts: [
+                            {
+                                id: 1,
+                                title: "La Vague Streetwear",
+                                date: "2026-02-19",
+                                category: "Project",
+                                excerpt: "Finished building the digital storefront for La Vague. Deep dives into texture, minimalism, and flow.",
+                                content: "Finished building the digital storefront for La Vague. Deep dives into texture, minimalism, and flow."
+                            },
+                            {
+                                id: 2,
+                                title: "Building GHOST",
+                                date: "2026-02-05",
+                                category: "AI",
+                                excerpt: "Created a personal AI that lives on my laptop. It sees, it remembers, it helps.",
+                                content: "Created a personal AI that lives on my laptop. It sees, it remembers, it helps."
+                            },
+                            {
+                                id: 3,
+                                title: "The 2030 Deadline",
+                                date: "2026-01-20",
+                                category: "Goals",
+                                excerpt: "Setting impossible goals and chasing them. Superhero status or bust.",
+                                content: "Setting impossible goals and chasing them. Superhero status or bust."
+                            },
+                            {
+                                id: 4,
+                                title: "Ghost Town Goes Live",
+                                date: "2025-12-15",
+                                category: "Launch",
+                                excerpt: "Finally launched my personal site. CRT effects, ghost pets, and all.",
+                                content: "Finally launched my personal site. CRT effects, ghost pets, and all."
+                            }
+                        ]
+                    });
+                    
+                    // Inject styles after mount
+                    setTimeout(function tryInject() {
+                        if (!injectCompactBlogStyles()) {
+                            setTimeout(tryInject, 100);
                         }
-                    ]
-                });
-                
-                // Inject styles after mount
-                setTimeout(function tryInject() {
-                    if (!injectCompactBlogStyles()) {
-                        setTimeout(tryInject, 100);
-                    }
-                }, 100);
+                    }, 100);
+                }
+            }
+
+            // Use requestIdleCallback to defer non-critical mounting
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(mountPixelBlog, { timeout: 2000 });
+            } else {
+                setTimeout(mountPixelBlog, 1000);
             }
         });
     </script>
