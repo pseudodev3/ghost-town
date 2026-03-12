@@ -103,7 +103,7 @@ windows.forEach(win => {
 });
 
 // ==========================================
-// 4. 3D ASH GENERATOR (OPTIMIZED)
+// 4. 3D ASH GENERATOR (ULTRA-OPTIMIZED)
 // ==========================================
 function initAshCanvas() {
     const canvas = document.getElementById('ash-canvas');
@@ -111,7 +111,7 @@ function initAshCanvas() {
     const ctx = canvas.getContext('2d');
 
     let width, height;
-    const count = 500; // Increased to 500 for better density
+    const count = 2000; // Increased to 2000 for high density
     const pool = new Float32Array(count * 3);
 
     function resize() {
@@ -143,19 +143,25 @@ function initAshCanvas() {
             return;
         }
         ctx.clearRect(0, 0, width, height);
+        
+        // Use a single fill call for all particles for massive performance boost
+        ctx.fillStyle = 'rgba(255, 230, 200, 0.4)'; 
+        ctx.beginPath();
+        
         for (let i = 0; i < count; i++) {
             const idx = i * 3;
-            pool[idx + 2] -= 1.0; // Slightly slower for less visual noise
+            pool[idx + 2] -= 1.5; 
             if (pool[idx + 2] <= 0) { resetParticle(i); }
             const z = pool[idx + 2];
             const sx = (pool[idx] / z) * (width/4) + width/2;
             const sy = (pool[idx + 1] / z) * (height/4) + height/2;
             const size = (1 - z / width) * 2;
             
-            // Optimized drawing: Use fillRect instead of arc for 'no gpu' mode
-            ctx.fillStyle = `rgba(255, 230, 200, ${0.8 - z/width})`;
-            ctx.fillRect(sx, sy, size, size);
+            // Batch rectangles into the current path
+            ctx.rect(sx, sy, size, size);
         }
+        
+        ctx.fill(); // Draw everything at once
         requestAnimationFrame(animate);
     }
     animate();
