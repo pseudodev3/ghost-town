@@ -174,7 +174,7 @@ body.eclipse-active .window {
 @keyframes roam { 0% { transform: translate(10vw, 20vh); } 50% { transform: translate(60vw, 80vh); } 100% { transform: translate(85vw, 20vh); } }
 @keyframes bob { from { transform: translateY(0); } to { transform: translateY(-10px); } }
 
-/* === HEADER (NEON SIGN) === */
+/* === HEADER (NEON SIGN) - Optimized 2.5D === */
 .sign-wrapper { 
     position: absolute; 
     top: 30px; 
@@ -184,11 +184,13 @@ body.eclipse-active .window {
     width: 450px; 
     height: 120px;
     cursor: default;
+    /* Mimic 3D perspective with 2D skew */
+    transform: skewX(-5deg);
 }
 
 .sign-wrapper:hover .sign-text,
 .sign-wrapper:hover .sign-structure {
-    transform: translateY(-2px);
+    transform: translateY(-5px) skewX(2deg);
 }
 
 .sign-structure {
@@ -196,9 +198,11 @@ body.eclipse-active .window {
     top: 5px; left: -10px;
     width: 440px; height: 60px;
     border: 1px solid #111;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.6);
     z-index: 1;
     border-radius: 4px;
+    /* Depth effect without filters */
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.8);
 }
 
 .sign-text { 
@@ -208,15 +212,18 @@ body.eclipse-active .window {
     gap: 8px; 
     position: relative; 
     z-index: 2;
+    /* Manual depth offset */
+    margin-top: 5px;
 }
 
 .sign-underglow {
     position: absolute;
-    bottom: -10px; left: 50%;
+    bottom: -5px; left: 50%;
     transform: translateX(-50%);
-    width: 60%; height: 20px;
-    background: radial-gradient(ellipse at center, var(--accent) 0%, transparent 70%);
-    opacity: 0.2;
+    width: 70%; height: 15px;
+    /* Use a sharper gradient to avoid heavy blur calculation */
+    background: radial-gradient(ellipse at center, var(--accent) 0%, transparent 80%);
+    opacity: 0.3;
     z-index: 0;
     pointer-events: none;
 }
@@ -227,10 +234,21 @@ body.eclipse-active .window {
     position: relative;
 }
 
-/* States */
+/* Restored depth layer for letters using efficient offset */
+.let::before {
+    content: attr(data-letter);
+    position: absolute;
+    top: 2px; left: 2px;
+    z-index: -1;
+    color: rgba(0,0,0,0.7);
+}
+
+/* Optimized Glow - 2 layers instead of 5 */
 .glow { 
     color: #fff; 
-    text-shadow: 0 0 5px var(--neon-blue);
+    text-shadow: 
+        0 0 8px var(--neon-blue),
+        0 0 15px var(--accent);
 }
 
 .off { 
