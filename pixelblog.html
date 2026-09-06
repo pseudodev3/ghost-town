@@ -9,31 +9,6 @@
     <script type="module">
       import './style.css';
       import './public/fonts/fonts.css';
-    .pixel-border, [class*="border"], [style*="border"] {
-  background: rgba(5, 5, 20, 0.95) !important;
-  border: 1px solid rgba(0, 255, 255, 0.5) !important;
-  padding: 14px 16px !important;
-}
-.pixel-border:hover, [class*="border"]:hover {
-  background: rgba(10, 10, 30, 0.98) !important;
-  border-color: rgba(255, 0, 255, 0.6) !important;
-}
-h3 {
-  color: #ff66ff !important;
-  font-size: 1rem !important;
-  text-shadow: 1px 1px 0 #000, 0 0 10px rgba(255,0,255,0.6) !important;
-}
-p {
-  color: #ffffff !important;
-  font-size: 0.85rem !important;
-  line-height: 1.5 !important;
-  text-shadow: 0 1px 3px rgba(0,0,0,1) !important;
-}
-span {
-  font-size: 0.75rem !important;
-  text-shadow: 0 1px 2px rgba(0,0,0,1) !important;
-}
-
     </script>
     
     <style>
@@ -189,21 +164,31 @@ span {
                     :host, #pixel-blog-root { background: transparent !important; }
                     .pixel-blog-wrapper { background: transparent !important; }
                     
-                    .pixel-border {
-                        background: rgba(20, 20, 35, 0.9) !important;
-                        border: 2px solid rgba(0, 255, 255, 0.5) !important;
-                        margin-bottom: 1.5rem !important;
-                        padding: 1.5rem !important;
-                    }
-                    
-                    .pixel-border:hover {
-                        background: rgba(30, 30, 50, 0.95) !important;
-                        border-color: rgba(255, 0, 255, 0.6) !important;
-                    }
-                    
-                    p { color: #fff !important; text-shadow: 0 1px 2px #000 !important; }
-                    h3 { color: #ff00ff !important; text-shadow: 1px 1px 0 #000 !important; }
-                    span { text-shadow: 0 1px 1px #000 !important; }
+                  .pixel-border, [class*="border"], [style*="border"] {
+  background: rgba(5, 5, 20, 0.95) !important;
+  border: 1px solid rgba(0, 255, 255, 0.5) !important;
+  padding: 14px 16px !important;
+}
+.pixel-border:hover, [class*="border"]:hover {
+  background: rgba(10, 10, 30, 0.98) !important;
+  border-color: rgba(255, 0, 255, 0.6) !important;
+}
+h3 {
+  color: #ff66ff !important;
+  font-size: 1rem !important;
+  text-shadow: 1px 1px 0 #000, 0 0 10px rgba(255,0,255,0.6) !important;
+}
+p {
+  color: #ffffff !important;
+  font-size: 0.85rem !important;
+  line-height: 1.5 !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,1) !important;
+}
+span {
+  font-size: 0.75rem !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,1) !important;
+}
+
                     
                     .pixel-button {
                         background: rgba(0, 255, 255, 0.2) !important;
@@ -221,46 +206,54 @@ span {
             
             if (typeof PixelBlog !== 'undefined') {
                 PixelBlog.mount({
-                    container: '#full-pixel-blog',
-                    adminPassword: 'ghost-town-1337',
-                    storageKey: 'ghost_town_blog',
-                    enableAdmin: true,
-                    fullPage: true,
-                    posts: posts || [
-                        {
-                            id: 1,
-                            title: "La Vague Streetwear",
-                            date: "2026-02-19",
-                            category: "Project",
-                            excerpt: "Finished building the digital storefront for La Vague. Deep dives into texture, minimalism, and flow.",
-                            content: "Finished building the digital storefront for La Vague. Deep dives into texture, minimalism, and flow."
-                        },
-                        {
-                            id: 2,
-                            title: "Building GHOST",
-                            date: "2026-02-05",
-                            category: "AI",
-                            excerpt: "Created a personal AI that lives on my laptop. It sees, it remembers, it helps.",
-                            content: "Created a personal AI that lives on my laptop. It sees, it remembers, it helps."
-                        },
-                        {
-                            id: 3,
-                            title: "The 2030 Deadline",
-                            date: "2026-01-20",
-                            category: "Goals",
-                            excerpt: "Setting impossible goals and chasing them. Superhero status or bust.",
-                            content: "Setting impossible goals and chasing them. Superhero status or bust."
-                        },
-                        {
-                            id: 4,
-                            title: "Ghost Town Goes Live",
-                            date: "2025-12-15",
-                            category: "Launch",
-                            excerpt: "Finally launched my personal site. CRT effects, ghost pets, and all.",
-                            content: "Finally launched my personal site. CRT effects, ghost pets, and all."
-                        }
-                    ]
-                });
+  container: '#pixel-blog-container',
+  adminPassword: 'ghost-town-1337',
+  storageKey: 'ghost_town_blog',
+  enableAdmin: true,
+  compact: true,
+  onPostRead: function(post) {
+    if (post.link) window.location.href = post.link;
+  },
+  posts: [
+    {
+      id: 1,
+      title: "La Vague Streetwear",
+      date: "2026-02-19",
+      category: "Project",
+      excerpt: "Finished building the digital storefront for La Vague. Deep dives into texture, minimalism, and flow.",
+      content: "Finished building the digital storefront for La Vague. Deep dives into texture, minimalism, and flow.",
+      link: "https://la-vague.store"
+    },
+    {
+      id: 2,
+      title: "Building GHOST",
+      date: "2026-02-05",
+      category: "AI",
+      excerpt: "Created a personal AI that lives on my laptop. It sees, it remembers, it helps.",
+      content: "Created a personal AI that lives on my laptop. It sees, it remembers, it helps.",
+      link: "https://REPLACE-WITH-GHOST-PROJECT-URL.com"
+    },
+    {
+      id: 3,
+      title: "The 2030 Deadline",
+      date: "2026-01-20",
+      category: "Goals",
+      excerpt: "Setting impossible goals and chasing them. Superhero status or bust.",
+      content: "Setting impossible goals and chasing them. Superhero status or bust.",
+      link: null
+    },
+    {
+      id: 4,
+      title: "Ghost Town Goes Live",
+      date: "2025-12-15",
+      category: "Launch",
+      excerpt: "Finally launched my personal site. CRT effects, ghost pets, and all.",
+      content: "Finally launched my personal site. CRT effects, ghost pets, and all.",
+      link: null
+    }
+  ]
+});
+
                 
                 setTimeout(function tryInject() {
                     if (!injectStyles()) {
